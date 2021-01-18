@@ -1,8 +1,11 @@
 
-<!--https://volosoft.com/Blog/attribute-directives-to-avoid-repetition-in-angular-templates-->
+<!--
+  https://volosoft.com/Blog/attribute-directives-to-avoid-repetition-in-angular-templates
+-->
 
 <ngx-datatable 
   [rows]="articles$ | async" 
+  [loadingIndicator]="true"
   [columns]="columns" 
   [headerHeight]="50"
   rowHeight="auto" 
