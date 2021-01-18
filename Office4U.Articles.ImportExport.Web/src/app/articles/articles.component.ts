@@ -11,19 +11,28 @@ import { ArticleService } from '../_services/article.service';
 })
 export class ArticlesComponent implements OnInit {
   articles$: Observable<Array<Article>>;
-  // rows: Array<any> = [];
-  // columns: Array<any> = [];
+  columns = [
+    { prop: 'code', width: 100, flexGrow: true },
+    { prop: 'supplierId', width: 100, flexGrow: true },
+    { prop: 'supplierReference', width: 150, flexGrow: true },
+    { prop: 'name1', width: 300, flexGrow: true },
+    {
+      prop: 'unit',
+      width: 50,
+      flexGrow: true,
+      headerClass: 'text-right',
+      cellClass: 'text-right pr-1'
+    },
+    {
+      prop: 'purchasePrice',
+      flexGrow: true,
+      headerClass: 'text-right',
+      cellClass: 'text-right'
+    }
+  ];
+  rows = [];
 
   constructor(private articleService: ArticleService) { }
-  rows = [];
-  columns = [
-    { prop: 'code' },
-    { prop: 'supplierId' },
-    { prop: 'supplierReference' },
-    { prop: 'name1' },
-    { prop: 'unit' },
-    { prop: 'purchasePrice' }
-  ];
 
   ngOnInit(): void {
     this.articles$ = this.articleService.getArticles();
