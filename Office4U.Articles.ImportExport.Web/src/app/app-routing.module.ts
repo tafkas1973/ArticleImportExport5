@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ArticlesComponent } from './articles/articles.component';
 
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
+      { path: 'articles', component: ArticlesComponent },
       { path: 'import', component: ImportComponent },
       { path: 'export', component: ExportComponent },
       { path: 'management', component: ManagementComponent }
