@@ -1,4 +1,4 @@
-<h2>Articles</h2>
+<app-title [title]="pageTitle"></app-title>
 
 <!--
   https://volosoft.com/Blog/attribute-directives-to-avoid-repetition-in-angular-templates
@@ -6,8 +6,8 @@
 
 <!--[rows]="articles$ | async" -->
 
-<ngx-datatable [rows]="articles" [loadingIndicator]="isLoading" [columnMode]="ColumnMode.force"
-  [columns]="columns" [headerHeight]="50" rowHeight="auto" class="material">
+<ngx-datatable [rows]="articles" [loadingIndicator]="isLoading" [columnMode]="ColumnMode.force" [columns]="columns"
+  [headerHeight]="50" rowHeight="auto" class="material">
 </ngx-datatable>
 
 <div class="more-rows" [hidden]="isLoading">

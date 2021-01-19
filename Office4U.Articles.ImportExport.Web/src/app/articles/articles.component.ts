@@ -14,6 +14,7 @@ export class ArticlesComponent implements OnInit {
   isLoading = true;
   ColumnMode = ColumnMode;
   moreRowsTooltip = 'Load more...';
+  pageTitle = "Articles";
 
   columns = [
     { prop: 'code', width: 100, flexGrow: true, sortable: false },

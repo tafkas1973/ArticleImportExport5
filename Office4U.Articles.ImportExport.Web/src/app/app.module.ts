@@ -18,6 +18,7 @@ import { ImportComponent } from './import/import.component';
 import { ExportComponent } from './export/export.component';
 import { ManagementComponent } from './management/management.component';
 import { ArticlesComponent } from './articles/articles.component';
+import { TitleComponent } from './title/title.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ArticlesComponent } from './articles/articles.component';
     ImportComponent,
     ExportComponent,
     ManagementComponent,
-    ArticlesComponent
+    ArticlesComponent,
+    TitleComponent
   ],
   imports: [
     BrowserModule,

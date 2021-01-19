@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./import.component.css']
 })
 export class ImportComponent implements OnInit {
+  pageTitle = "Article Import";
 
   constructor() { }
 

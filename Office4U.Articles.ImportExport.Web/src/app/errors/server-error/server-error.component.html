@@ -1,4 +1,5 @@
-<h4>Internal server error - Refreshing the page will make the error disappear!</h4>
+<app-title [title]="pageTitle"></app-title>
+
 <ng-container *ngIf="error">
     <h5 class="text-danger">Error: {{error.message}}</h5>
     <p class="font-weight-bold">Note: If you are seeing this, then Angular is probably not to blame</p>

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./export.component.css']
 })
 export class ExportComponent implements OnInit {
+  pageTitle = "Article Export";
 
   constructor() { }
 

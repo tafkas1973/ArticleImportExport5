@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { error } from 'protractor';
 
 @Component({
   selector: 'app-server-error',
@@ -8,6 +7,7 @@ import { error } from 'protractor';
   styleUrls: ['./server-error.component.css']
 })
 export class ServerErrorComponent implements OnInit {
+  pageTitle = "Internal server error - Refreshing the page will make the error disappear!";
   error: any;
 
   constructor(private router: Router) {
