@@ -1,4 +1,4 @@
-namespace Api.Errors
+namespace Office4U.Articles.ImportExport.Api.Errors
 {
     public class ApiException
     {

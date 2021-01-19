@@ -1,9 +1,9 @@
-using Api.Data;
-using Api.Entities;
+using Office4U.Articles.ImportExport.Api.Data;
+using Office4U.Articles.ImportExport.Api.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Office4U.Articles.ImportExport.Api.Controllers
 {
     public class BuggyController : BaseApiController
     {

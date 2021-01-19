@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.DTOs
+namespace Office4U.Articles.ImportExport.Api.DTOs
 {
     public class RegisterDto
     {

@@ -1,11 +1,11 @@
-using Api.Data;
-using Api.Entities;
+using Office4U.Articles.ImportExport.Api.Data;
+using Office4U.Articles.ImportExport.Api.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Api.Controllers
+namespace Office4U.Articles.ImportExport.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

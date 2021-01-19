@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Api.Entities;
-using Api.Interfaces;
+using Office4U.Articles.ImportExport.Api.Entities;
+using Office4U.Articles.ImportExport.Api.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Api.Services
+namespace Office4U.Articles.ImportExport.Api.Services
 {
     public class TokenService : ITokenService
     {

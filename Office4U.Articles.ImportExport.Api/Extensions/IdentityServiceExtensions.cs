@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Api.Extensions
+namespace Office4U.Articles.ImportExport.Api.Extensions
 {
     public static class IdentityServiceExtensions
     {

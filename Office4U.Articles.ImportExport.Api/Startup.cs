@@ -1,20 +1,12 @@
-using System.Text;
-using Api.Data;
-using Api.Extensions;
-using Api.Interfaces;
-using Api.Middleware;
-using Api.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Office4U.Articles.ImportExport.Api.Extensions;
+using Office4U.Articles.ImportExport.Api.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace Api
+namespace Office4U.Articles.ImportExport.Api
 {
     public class Startup
     {

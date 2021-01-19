@@ -1,14 +1,14 @@
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Text;
-using Api.Data;
-using Api.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Api.DTOs;
 using Microsoft.EntityFrameworkCore;
-using Api.Interfaces;
+using Office4U.Articles.ImportExport.Api.Data;
+using Office4U.Articles.ImportExport.Api.DTOs;
+using Office4U.Articles.ImportExport.Api.Entities;
+using Office4U.Articles.ImportExport.Api.Interfaces;
 
-namespace Api.Controllers
+namespace Office4U.Articles.ImportExport.Api.Controllers
 {
     public class AccountController : BaseApiController
     {

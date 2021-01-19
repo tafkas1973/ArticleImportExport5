@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Office4U.Articles.ImportExport.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

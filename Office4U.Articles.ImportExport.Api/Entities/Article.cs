@@ -1,4 +1,4 @@
-namespace Api.Entities
+namespace Office4U.Articles.ImportExport.Api.Entities
 {
     public class Article
     {

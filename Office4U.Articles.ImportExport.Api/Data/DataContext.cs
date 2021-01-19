@@ -1,7 +1,7 @@
-using Api.Entities;
+using Office4U.Articles.ImportExport.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Data
+namespace Office4U.Articles.ImportExport.Api.Data
 {
     public class DataContext : DbContext
     {

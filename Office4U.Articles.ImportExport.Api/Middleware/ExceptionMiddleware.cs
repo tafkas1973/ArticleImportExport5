@@ -2,12 +2,12 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Api.Errors;
+using Office4U.Articles.ImportExport.Api.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Api.Middleware
+namespace Office4U.Articles.ImportExport.Api.Middleware
 {
     public class ExceptionMiddleware
     {

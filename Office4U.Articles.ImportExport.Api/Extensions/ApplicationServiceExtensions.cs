@@ -1,11 +1,13 @@
-using Api.Data;
-using Api.Interfaces;
-using Api.Services;
+using Office4U.Articles.ImportExport.Api.Data;
+using Office4U.Articles.ImportExport.Api.Interfaces;
+using Office4U.Articles.ImportExport.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Office4U.Articles.ImportExport.Api.Helpers;
+using AutoMapper;
 
-namespace Api.Extensions
+namespace Office4U.Articles.ImportExport.Api.Extensions
 {
     public static class ApplicationServiceExtensions
     {
@@ -13,7 +15,9 @@ namespace Api.Extensions
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<ITokenService, TokenService>();            
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));

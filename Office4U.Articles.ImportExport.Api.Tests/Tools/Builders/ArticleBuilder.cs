@@ -1,4 +1,4 @@
-﻿using Api.Entities;
+﻿using Office4U.Articles.ImportExport.Api.Entities;
 
 namespace Retail4U.Office4U.WebApi.Tools.Data
 {
