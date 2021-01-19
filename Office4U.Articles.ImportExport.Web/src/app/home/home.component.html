@@ -6,7 +6,8 @@
         </div>
         <p class="lead">find, import and export articles... sign up if you don't have a user profile</p>
         <div class="text-center">
-            <button (click)="registerToggle()" class="btn btn-primary btn-lg mr-2">Register</button>
+            <button hidden="{{accountService.currentUser$ | async}}" (click)="registerToggle()"
+                class="btn btn-primary btn-lg mr-2">Register</button>
             <button class="btn btn-info btn-lg">Learn more</button>
         </div>
     </div>
