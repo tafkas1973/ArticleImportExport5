@@ -14,6 +14,8 @@ namespace Office4U.Articles.ImportExport.Api.Helpers
                     dest => dest.PhotoUrl, 
                     options => options.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Photo, PhotoDto>();
+
+            CreateMap<Article, ArticleDto>();
         }
     }
 }

@@ -1,18 +1,14 @@
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
-namespace Office4U.Articles.ImportExport.Api.Data
+namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly DataContext _context;
-        public UserRepository(DataContext context)
-        {
-            _context = context;
-        }
+        public UserRepository(DataContext context) : base(context) { }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
         {

@@ -4,10 +4,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Office4U.Articles.ImportExport.Api.Data;
 using Office4U.Articles.ImportExport.Api.Entities;
 
-namespace Office4U.Articles.ImportExport.Api.Data
+namespace Office4U.Articles.ImportExport.Api.Data.SeedData
 {
     public static class Seed
     {
@@ -15,7 +14,7 @@ namespace Office4U.Articles.ImportExport.Api.Data
         {
             if (await context.Users.AnyAsync()) return;
 
-            var userData = await System.IO.File.ReadAllTextAsync("Data/UserSeedData.json");
+            var userData = await System.IO.File.ReadAllTextAsync("Data/SeedData/UserSeedData.json");
 
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
 
@@ -28,6 +27,22 @@ namespace Office4U.Articles.ImportExport.Api.Data
                 user.PasswordSalt = hmac.Key;
 
                 context.Users.Add(user);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedArticles(DataContext context)
+        {
+            if (await context.Articles.AnyAsync()) return;
+
+            var articleData = await System.IO.File.ReadAllTextAsync("Data/SeedData/ArticleSeedData.json");
+
+            var articles = JsonSerializer.Deserialize<List<Article>>(articleData);
+
+            foreach (var article in articles)
+            {
+                context.Articles.Add(article);
             }
 
             await context.SaveChangesAsync();

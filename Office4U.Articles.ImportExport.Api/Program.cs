@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Office4U.Articles.ImportExport.Api.Data;
+using Office4U.Articles.ImportExport.Api.Data.SeedData;
 
 namespace Office4U.Articles.ImportExport.Api
 {
@@ -24,6 +25,7 @@ namespace Office4U.Articles.ImportExport.Api
                 var context = services.GetRequiredService<DataContext>();
                 await context.Database.MigrateAsync();
                 await Seed.SeedUsers(context);
+                await Seed.SeedArticles(context);
             }
             catch (Exception ex)
             {
