@@ -19,6 +19,10 @@ import { ExportComponent } from './export/export.component';
 import { ManagementComponent } from './management/management.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { TitleComponent } from './title/title.component';
+import { ArticleCardsComponent } from './articles/article-cards/article-cards.component';
+import { ArticleCardComponent } from './articles/article-card/article-card.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,10 @@ import { TitleComponent } from './title/title.component';
     ExportComponent,
     ManagementComponent,
     ArticlesComponent,
-    TitleComponent
+    TitleComponent,
+    ArticleCardsComponent,
+    ArticleCardComponent,
+    ArticleDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,8 @@ import { TitleComponent } from './title/title.component';
     SharedModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

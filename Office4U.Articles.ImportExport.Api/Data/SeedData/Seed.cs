@@ -37,12 +37,21 @@ namespace Office4U.Articles.ImportExport.Api.Data.SeedData
             if (await context.Articles.AnyAsync()) return;
 
             var articleData = await System.IO.File.ReadAllTextAsync("Data/SeedData/ArticleSeedData.json");
+            var articlePhotoData = await System.IO.File.ReadAllTextAsync("Data/SeedData/ArticlePhotoSeedData.json");
 
             var articles = JsonSerializer.Deserialize<List<Article>>(articleData);
+            var articlePhotos = JsonSerializer.Deserialize<List<ArticlePhoto>>(articlePhotoData);
 
             foreach (var article in articles)
             {
                 context.Articles.Add(article);
+            }
+            
+            await context.SaveChangesAsync();
+
+            foreach (var articlePhoto in articlePhotos)
+            {
+                context.ArticlePhotos.Add(articlePhoto);
             }
 
             await context.SaveChangesAsync();

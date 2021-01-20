@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Office4U.Articles.ImportExport.Api.DTOs
 {
-    public class MemberDto
+    public class AppUserDto
     {
         public int Id { get; set; }
         public string UserName { get; set; }
@@ -18,6 +18,6 @@ namespace Office4U.Articles.ImportExport.Api.DTOs
         public string Interests { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public ICollection<PhotoDto> Photos { get; set; }
+        public ICollection<UserPhotoDto> Photos { get; set; }
     }
 }

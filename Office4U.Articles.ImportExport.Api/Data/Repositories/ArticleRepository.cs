@@ -12,12 +12,16 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 
         public async Task<IEnumerable<Article>> GetArticlesAsync()
         {
-            return await _context.Articles.ToListAsync();
+            return await _context.Articles
+                .Include(a => a.Photos)
+                .ToListAsync();
         }
 
         public async Task<Article> GetArticleByIdAsync(int id)
         {
-            return await _context.Articles.FindAsync(id);
+            return await _context.Articles
+                .Include(a => a.Photos)
+                .SingleOrDefaultAsync(a => a.Id == id);
         }
     }
 }

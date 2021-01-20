@@ -3,7 +3,7 @@
         "Code": "27400287",
         "SupplierId": "302740",
         "SupplierReference": "POW X131-A",
-        "Name1": "POW X131-A ZAAGBLAD 6T",
+        "Name1": "ZAAGBLAD 6T",
         "Unit": "ST",
         "PurchasePrice": 6.75
     },
@@ -11,7 +11,7 @@
         "Code": "27400436",
         "SupplierId": "302740",
         "SupplierReference": "POW X240",
-        "Name1": "POW X240 RAD.TEGELSNIJDER 600W",
+        "Name1": "TEGELSNIJDER 600W",
         "Unit": "ST",
         "PurchasePrice": 130
     },
@@ -19,7 +19,7 @@
         "Code": "27400438",
         "SupplierId": "302740",
         "SupplierReference": "POW X180",
-        "Name1": "POW X180 BANDZAAG 350W",
+        "Name1": "BANDZAAG 350W",
         "Unit": "ST",
         "PurchasePrice": 99
     },
@@ -27,7 +27,7 @@
         "Code": "27400439",
         "SupplierId": "302740",
         "SupplierReference": "POW X190",
-        "Name1": "POW X190 FIGUURZAAGMACHINE 85W",
+        "Name1": "FIGUURZAAGMACHINE 85W",
         "Unit": "ST",
         "PurchasePrice": 59
     },
@@ -35,7 +35,7 @@
         "Code": "27400442",
         "SupplierId": "302740",
         "SupplierReference": "POW X230",
-        "Name1": "POW X230 TEGELSNIJDER750W",
+        "Name1": "TEGELSNIJDER750W",
         "Unit": "ST",
         "PurchasePrice": 84
     },
@@ -43,7 +43,7 @@
         "Code": "27400463",
         "SupplierId": "302740",
         "SupplierReference": "POWX093",
-        "Name1": "POWX093 BOVENFREES 1500W",
+        "Name1": "BOVENFREES 1500W",
         "Unit": "ST",
         "PurchasePrice": 69
     },
@@ -51,7 +51,7 @@
         "Code": "27400494",
         "SupplierId": "302740",
         "SupplierReference": "POWXG2032",
-        "Name1": "POWXG2032 GRAS/HAAG SCHAAR7.2V",
+        "Name1": "GRAS/HAAG SCHAAR7.2V",
         "Unit": "ST",
         "PurchasePrice": 24.95
     },
@@ -94,29 +94,5 @@
         "Name1": "LASER WATERPAS OP VOET",
         "Unit": "ST",
         "PurchasePrice": 35
-    },
-    {
-        "Code": "27400571",
-        "SupplierId": "302740",
-        "SupplierReference": "POWX137",
-        "Name1": "NIETNAGEL MACHINE-SNOERLOOS",
-        "Unit": "ST",
-        "PurchasePrice": 28
-    },
-    {
-        "Code": "27400573",
-        "SupplierId": "302740",
-        "SupplierReference": "POWXG1065",
-        "Name1": "ELETR. KETTINGSLIJPER 220 V",
-        "Unit": "ST",
-        "PurchasePrice": 24.95
-    },
-    {
-        "Code": "27400580",
-        "SupplierId": "302740",
-        "SupplierReference": "POWACG422",
-        "Name1": "KETTING V. KETTINGZAAG  350 MM",
-        "Unit": "ST",
-        "PurchasePrice": 7.45    
     }
 ]

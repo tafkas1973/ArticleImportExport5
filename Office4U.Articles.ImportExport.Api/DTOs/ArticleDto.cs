@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Office4U.Articles.ImportExport.Api.DTOs
 {
     public class ArticleDto
@@ -9,5 +11,7 @@ namespace Office4U.Articles.ImportExport.Api.DTOs
         public string Name1 { get; set; }
         public string Unit { get; set; }
         public decimal PurchasePrice { get; set; }
+        public string PhotoUrl { get; set; }
+        public ICollection<ArticlePhotoDto> Photos { get; set; }
     }
 }

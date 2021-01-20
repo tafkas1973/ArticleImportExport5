@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Office4U.Articles.ImportExport.Api.Entities
 {
     public class Article
@@ -9,5 +11,6 @@ namespace Office4U.Articles.ImportExport.Api.Entities
         public string Name1 { get; set; }
         public string Unit { get; set; }
         public decimal PurchasePrice { get; set; }
+         public ICollection<ArticlePhoto> Photos { get; set; }
     }
 }

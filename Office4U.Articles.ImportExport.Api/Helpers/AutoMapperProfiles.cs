@@ -9,13 +9,17 @@ namespace Office4U.Articles.ImportExport.Api.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<AppUser, MemberDto>()
+            CreateMap<AppUser, AppUserDto>()
                 .ForMember(
-                    dest => dest.PhotoUrl, 
+                    dest => dest.PhotoUrl,
                     options => options.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url));
-            CreateMap<Photo, PhotoDto>();
+            CreateMap<AppUserPhoto, UserPhotoDto>();
 
-            CreateMap<Article, ArticleDto>();
+            CreateMap<Article, ArticleDto>()
+                .ForMember(
+                    dest => dest.PhotoUrl,
+                    options => options.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url));
+            CreateMap<ArticlePhoto, ArticlePhotoDto>();
         }
     }
 }

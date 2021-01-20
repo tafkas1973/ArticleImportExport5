@@ -1,3 +1,5 @@
+import { ArticlePhoto } from "./articlePhoto";
+
 export interface Article {
     id: number;
     code: string;
@@ -6,4 +8,8 @@ export interface Article {
     name1: string;
     unit: string;
     purchasePrice: number;
+    photoUrl: string;
+    photos: Array<ArticlePhoto>;
 }
+
+

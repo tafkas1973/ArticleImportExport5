@@ -11,5 +11,6 @@ namespace Office4U.Articles.ImportExport.Api.Data
         
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<ArticlePhoto> ArticlePhotos { get; set; }
     }
 }

@@ -1,17 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+
+import { environment } from '../../environments/environment';
 import { Article } from '../_models/article';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
-  baseUrl = 'https://localhost:5001/';
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  getArticles(): Observable<Array<Article>> {
-    return this.http.get<Array<Article>>(this.baseUrl + 'api/articles');
+  getArticles() {
+    return this.http.get<Array<Article>>(this.baseUrl + 'articles');
+  }
+
+  getArticle(id: string) {
+    return this.http.get<Article>(this.baseUrl + 'articles/' + id.toString());
   }
 }

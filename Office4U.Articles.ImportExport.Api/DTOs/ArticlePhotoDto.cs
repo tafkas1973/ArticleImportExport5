@@ -1,6 +1,6 @@
 namespace Office4U.Articles.ImportExport.Api.DTOs
 {
-    public class UserPhotoDto
+    public class ArticlePhotoDto
     {
         public int Id { get; set; }
         public string Url { get; set; }

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ArticleCardsComponent } from './articles/article-cards/article-cards.component';
+import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 import { ArticlesComponent } from './articles/articles.component';
 
 import { NotFoundComponent } from './errors/not-found/not-found.component';
@@ -19,6 +21,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'articles', component: ArticlesComponent },
+      { path: 'articles/:id', component: ArticleDetailComponent },
+      { path: 'article-cards', component: ArticleCardsComponent },
       { path: 'import', component: ImportComponent },
       { path: 'export', component: ExportComponent },
       { path: 'management', component: ManagementComponent }

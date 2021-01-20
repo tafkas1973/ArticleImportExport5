@@ -22,21 +22,21 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<AppUserDto>>> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
 
-            var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
+            var usersToReturn = _mapper.Map<IEnumerable<AppUserDto>>(users);
 
             return Ok(usersToReturn);
         }
 
         [HttpGet("{username}")]
-        public async Task<ActionResult<MemberDto>> GetUser(string username)
+        public async Task<ActionResult<AppUserDto>> GetUser(string username)
         {
             var user = await _userRepository.GetUserByUsernameAsync(username);
 
-            var userToReturn = _mapper.Map<MemberDto>(user);
+            var userToReturn = _mapper.Map<AppUserDto>(user);
 
             return userToReturn;
         }

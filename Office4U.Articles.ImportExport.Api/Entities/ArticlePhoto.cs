@@ -1,16 +1,19 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Office4U.Articles.ImportExport.Api.Entities;
 
 namespace Office4U.Articles.ImportExport.Api.Entities
 {
-    [Table("Photos")]
-    public class Photo
+
+    // TODO1: make PhotoBase class
+    // TODO2: implement discriminator
+
+    [Table("ArticlePhotos")]
+    public class ArticlePhoto
     {
         public int Id { get; set; }
         public string Url { get; set; }
         public bool IsMain { get; set; }
         public string PublicId { get; set; }
-        public AppUser AppUser { get; set; }
-        public int AppUserId { get; set; }
+        public Article Article { get; set; }
+        public int ArticleId { get; set; }
     }
 }

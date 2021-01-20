@@ -2,11 +2,20 @@
   <div class="container">
     <a class="navbar-brand" routerLink="/" routerLinkActive='active'>Article Import/Export</a>
 
+    <div class="dropdown mr-3" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+      <a class="dropdown-toggle text-light" dropdownToggle>Articles</a>
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="nav-link" routerLink="/articles">Article List</a>
+        <div class="dropdown-divider"></div>
+        <a class="nav-link" routerLink="/article-cards">Article Cards</a>
+      </div>
+    </div>
+
     <ul class="navbar-nav mr-auto">
       <ng-container *ngIf="accountService.currentUser$ | async">
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a class="nav-link" routerLink="/articles" routerLinkActive='active'>Articles</a>
-        </li>
+        </li>-->
         <li class="nav-item">
           <a class="nav-link" routerLink="/import" routerLinkActive='active'>Import</a>
         </li>
