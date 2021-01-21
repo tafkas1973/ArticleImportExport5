@@ -11,3 +11,7 @@
     background-color: #fff;
     border-top: none;
 }
+
+img.card-img-top.img-thumbnail {
+    border: none;
+}

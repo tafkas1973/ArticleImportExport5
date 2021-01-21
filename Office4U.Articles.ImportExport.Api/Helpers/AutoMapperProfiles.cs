@@ -22,6 +22,7 @@ namespace Office4U.Articles.ImportExport.Api.Helpers
             CreateMap<ArticlePhoto, ArticlePhotoDto>();
 
             CreateMap<ArticleUpdateDto, Article>();
+            CreateMap<RegisterDto, AppUser>();
         }
     }
 }
