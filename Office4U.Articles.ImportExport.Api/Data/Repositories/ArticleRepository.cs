@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Office4U.Articles.ImportExport.Api.Entities;
+using Office4U.Articles.ImportExport.Api.Helpers;
 using Office4U.Articles.ImportExport.Api.Interfaces;
 
 namespace Office4U.Articles.ImportExport.Api.Data.Repositories
@@ -10,12 +12,17 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
     {
         public ArticleRepository(DataContext context) : base(context) { }
 
-        public async Task<IEnumerable<Article>> GetArticlesAsync()
+        public async Task<PagedList<Article>> GetArticlesAsync(UserParams userParams)
         {
-            return await _context.Articles
+            var articles = _context.Articles
                 .Include(a => a.Photos)
-                .ToListAsync();
-        }
+                .AsQueryable();
+
+            return await PagedList<Article>.CreateAsync(
+                articles,
+                userParams.PageNumber,
+                userParams.PageSize);
+            }
 
         public async Task<Article> GetArticleByIdAsync(int id)
         {

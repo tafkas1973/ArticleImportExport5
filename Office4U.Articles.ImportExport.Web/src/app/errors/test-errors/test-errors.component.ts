@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from 'src/app/_services/account.service';
 import { environment } from '../../../environments/environment';
 
 @Component({

@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Article } from '../_models/article';
+import { Paginatedresult } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,27 @@ import { Article } from '../_models/article';
 export class ArticleService {
   baseUrl = environment.apiUrl;
   articles: Array<Article> = [];
+  paginatedResult: Paginatedresult<Array<Article>> = new Paginatedresult<Array<Article>>();
 
   constructor(private http: HttpClient) { }
 
-  getArticles() {
-    if (this.articles.length > 0) return of(this.articles);
-    return this.http.get<Array<Article>>(this.baseUrl + 'articles')
+  getArticles(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    // we also want the response body with the pagination info
+    return this.http.get<Array<Article>>(this.baseUrl + 'articles', { observe: 'response', params })
       .pipe(
-        map(articles => {
-          this.articles = articles;
-          return articles;
+        map(response => {
+          this.paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return this.paginatedResult;
         })
       );
   }

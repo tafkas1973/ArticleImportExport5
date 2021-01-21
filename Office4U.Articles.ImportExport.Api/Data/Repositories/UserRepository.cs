@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Interfaces;
+using Office4U.Articles.ImportExport.Api.Helpers;
+using System.Linq;
 
 namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 {
@@ -22,11 +24,16 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
                 .SingleOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<IEnumerable<AppUser>> GetUsersAsync()
+        public async Task<PagedList<AppUser>> GetUsersAsync(UserParams userParams)
         {
-            return await _context.Users
+            var users = _context.Users
                 .Include(u => u.Photos)
-                .ToListAsync();
+                .AsQueryable();
+
+            return await PagedList<AppUser>.CreateAsync(
+                users,
+                userParams.PageNumber,
+                userParams.PageSize);
         }
 
         public async Task<bool> SaveAllAsync()

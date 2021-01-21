@@ -6,12 +6,20 @@
 
 <!--[rows]="articles$ | async" -->
 
-<ngx-datatable [rows]="articles" [loadingIndicator]="isLoading" [columnMode]="ColumnMode.force" [columns]="columns"
+<ngx-datatable [rows]="articles" [columnMode]="ColumnMode.force" [columns]="columns"
   [headerHeight]="50" rowHeight="auto" class="material">
 </ngx-datatable>
 
-<div class="more-rows" [hidden]="isLoading">
-  <button class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="{{moreRowsTooltip}}">
-    +
-  </button>
+<div class="d-flex justify-content-center mt-5" *ngIf="pagination">
+  <pagination 
+      [boundaryLinks]="true" 
+      [totalItems]="pagination.totalItems" 
+      [itemsPerPage]="pagination.itemsPerPage"
+      [(ngModel)]="pagination.currentPage" 
+      (pageChanged)="pageChanged($event)" 
+      previousText="&lsaquo;"
+      nextText="&rsaquo;" 
+      firstText="&laquo;" 
+      lastText="&raquo;">
+  </pagination>
 </div>

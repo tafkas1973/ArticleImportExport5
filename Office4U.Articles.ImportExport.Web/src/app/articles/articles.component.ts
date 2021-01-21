@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { Article } from '../_models/article';
+import { Pagination } from '../_models/pagination';
 import { ArticleService } from '../_services/article.service';
 
 @Component({
@@ -9,12 +10,12 @@ import { ArticleService } from '../_services/article.service';
   styleUrls: ['./articles.component.css']
 })
 export class ArticlesComponent implements OnInit {
-  //articles$: Observable<Array<Article>>;
   articles: Array<Article>;
-  isLoading = true;
   ColumnMode = ColumnMode;
-  moreRowsTooltip = 'Load more...';
   pageTitle = "Articles";
+  pageNumber = 1;
+  pageSize = 5;
+  pagination: Pagination;
 
   columns = [
     { prop: 'code', width: 100, flexGrow: true, sortable: false },
@@ -33,7 +34,7 @@ export class ArticlesComponent implements OnInit {
       prop: 'purchasePrice',
       flexGrow: true,
       headerClass: 'text-right',
-      cellClass: 'text-right', 
+      cellClass: 'text-right',
       sortable: false
     }
   ];
@@ -42,15 +43,20 @@ export class ArticlesComponent implements OnInit {
   constructor(private articleService: ArticleService) { }
 
   ngOnInit(): void {
-    //this.articles$ = this.articleService.getArticles();
-    // for demo purposes
-    this.articleService.getArticles()
+    this.loadArticles();
+  }
+
+  loadArticles() {
+    this.articleService
+      .getArticles(this.pageNumber, this.pageSize)
       .subscribe(response => {
-        setTimeout(() => {
-          console.log(this.articles);
-          this.articles = response;
-          this.isLoading = false;
-        }, 1000);
-      });
+        this.articles = response.result;
+        this.pagination = response.pagination;
+      })
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.loadArticles();
   }
 }

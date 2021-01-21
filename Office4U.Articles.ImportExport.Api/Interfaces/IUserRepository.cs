@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Office4U.Articles.ImportExport.Api.Entities;
+using Office4U.Articles.ImportExport.Api.Helpers;
 
 namespace Office4U.Articles.ImportExport.Api.Interfaces
 {
@@ -8,7 +8,7 @@ namespace Office4U.Articles.ImportExport.Api.Interfaces
     {
         void Update(AppUser user);
         Task<bool> SaveAllAsync();
-        Task<IEnumerable<AppUser>> GetUsersAsync();
+        Task<PagedList<AppUser>> GetUsersAsync(UserParams userParams);
         Task<AppUser> GetUserByIdAsync(int id);
         Task<AppUser> GetUserByUsernameAsync(string username);            
     }

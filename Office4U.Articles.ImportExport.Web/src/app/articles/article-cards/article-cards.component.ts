@@ -1,7 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { Component, OnInit } from '@angular/core';
+import { Pagination } from '../../_models/pagination';
 import { environment } from '../../../environments/environment';
 import { Article } from '../../_models/article';
 import { ArticleService } from '../../_services/article.service';
@@ -11,20 +9,31 @@ import { ArticleService } from '../../_services/article.service';
   templateUrl: './article-cards.component.html',
   styleUrls: ['./article-cards.component.css']
 })
-export class ArticleCardsComponent implements OnInit, OnDestroy {
+export class ArticleCardsComponent implements OnInit {
   baseUrl = environment.apiUrl;
-  articles$: Observable<Array<Article>>;
+  articles: Array<Article>;
   pageTitle = "Articles";
-  private notifier = new Subject();
+  pageNumber = 1;
+  pageSize = 4;
+  pagination: Pagination;
 
   constructor(private articleService: ArticleService) { }
 
   ngOnInit(): void {
-    this.articles$ = this.articleService.getArticles();
+    this.loadArticles();
   }
 
-  ngOnDestroy() {
-    this.notifier.next();
-    this.notifier.complete();
+  loadArticles() {
+    this.articleService
+      .getArticles(this.pageNumber, this.pageSize)
+      .subscribe(response => {
+        this.articles = response.result;
+        this.pagination = response.pagination;
+      })
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.loadArticles();
   }
 }

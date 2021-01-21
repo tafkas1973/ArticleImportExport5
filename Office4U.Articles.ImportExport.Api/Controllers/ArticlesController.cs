@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Office4U.Articles.ImportExport.Api.Interfaces;
 using AutoMapper;
 using Office4U.Articles.ImportExport.Api.DTOs;
+using Office4U.Articles.ImportExport.Api.Helpers;
+using Office4U.Articles.ImportExport.Api.Extensions;
 
 namespace Office4U.Articles.ImportExport.Api.Controllers
 {
@@ -22,11 +24,20 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArticleDto>>> GetArticles()
+        public async Task<ActionResult<IEnumerable<ArticleDto>>> GetArticles(
+            [FromQuery] UserParams userParams)
         {
-            var articles = await _articleRespository.GetArticlesAsync();
+            var articles = await _articleRespository.GetArticlesAsync(userParams);
 
             var articlesToReturn = _mapper.Map<IEnumerable<ArticleDto>>(articles);
+
+            // users is of type PagedList<User> 
+            // (inherits List, so it's a List of Users plus Pagination info)
+            Response.AddPaginationHeader(
+                articles.CurrentPage,
+                articles.PageSize,
+                articles.TotalCount,
+                articles.TotalPages);
 
             return Ok(articlesToReturn);
         }
