@@ -3,21 +3,21 @@
     <a class="navbar-brand" routerLink="/" routerLinkActive='active'>Article Import/Export</a>
 
     <div class="dropdown mr-3" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-      <a class="dropdown-toggle text-light" dropdownToggle>Articles</a>
+      <a class="dropdown-toggle text-light" dropdownToggle><i class="fa fa-caret-right mr-2"></i>Articles</a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="nav-link" routerLink="/articles">Article List</a>
+        <a class="nav-link" routerLink="/articles"><i class="fa fa-list-ul mr-2"></i>Article List</a>
         <div class="dropdown-divider"></div>
-        <a class="nav-link" routerLink="/article-cards">Article Cards</a>
+        <a class="nav-link" routerLink="/article-cards"><i class="fa fa-address-card mr-2"></i>Article Cards</a>
       </div>
     </div>
 
     <ul class="navbar-nav mr-auto">
       <ng-container *ngIf="accountService.currentUser$ | async">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/import" routerLinkActive='active'>Import</a>
+          <a class="nav-link" routerLink="/import" routerLinkActive='active'><i class="fa fa-upload mr-2"></i>Import</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/export" routerLinkActive='active'>Export</a>
+          <a class="nav-link" routerLink="/export" routerLinkActive='active'><i class="fa fa-download mr-2"></i>Export</a>
         </li>
       </ng-container>
     </ul>
