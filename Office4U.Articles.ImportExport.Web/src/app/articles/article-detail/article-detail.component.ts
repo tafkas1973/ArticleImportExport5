@@ -48,7 +48,7 @@ export class ArticleDetailComponent implements OnInit {
   }
 
   loadArticle() {
-    this.articleService.getArticle(this.route.snapshot.paramMap.get('id'))
+    this.articleService.getArticle((Number)(this.route.snapshot.paramMap.get('id')))
       .subscribe(article => {
         this.article = article
         this.galleryImages = this.getImages();
