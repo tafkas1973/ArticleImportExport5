@@ -23,5 +23,15 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
                 .Include(a => a.Photos)
                 .SingleOrDefaultAsync(a => a.Id == id);
         }
+
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public void Update(Article article)
+        {
+            _context.Entry(article).State = EntityState.Modified;
+        }
     }
 }

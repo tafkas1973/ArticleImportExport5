@@ -23,6 +23,8 @@ import { ArticleCardsComponent } from './articles/article-cards/article-cards.co
 import { ArticleCardComponent } from './articles/article-card/article-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
+import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ArticleDetailComponent } from './articles/article-detail/article-detail
     TitleComponent,
     ArticleCardsComponent,
     ArticleCardComponent,
-    ArticleDetailComponent
+    ArticleDetailComponent,
+    ArticleEditComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,8 @@ import { ArticleDetailComponent } from './articles/article-detail/article-detail
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

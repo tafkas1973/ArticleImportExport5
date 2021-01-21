@@ -40,5 +40,20 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
 
             return articleToReturn;
         }
+
+        [HttpPut]
+        // TODO: restful: also specify id in parm list?
+        public async Task<ActionResult> UpdateArticle(ArticleUpdateDto articleUpdateDto)
+        {
+            var article = await _articleRespository.GetArticleByIdAsync(articleUpdateDto.Id);
+
+            _mapper.Map(articleUpdateDto, article);
+
+            _articleRespository.Update(article);
+
+            if (await _articleRespository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to update user");
+        }
     }
 }
