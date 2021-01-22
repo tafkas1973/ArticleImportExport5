@@ -94,7 +94,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             {
                 "code" => articles.OrderBy(a => a.Code),
                 "supplierReference" => articles.OrderBy(a => a.SupplierReference),
-                _ => articles.OrderBy(a => a.Id)
+                _ => articles.OrderBy(a => a.Name1)
             };
 
             return articles;

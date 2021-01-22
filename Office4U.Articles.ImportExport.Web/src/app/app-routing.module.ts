@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './_guards/auth.guard';
-import { ArticleCardsComponent } from './articles/article-cards/article-cards.component';
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
-import { ArticlesComponent } from './articles/articles.component';
+import { ArticleListComponent } from './articles/article-list/article-list.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
@@ -22,14 +21,13 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'articles', component: ArticlesComponent },
-      { path: 'articles/:id', component: ArticleDetailComponent },
+      { path: 'article-list'  , component: ArticleListComponent },
+      { path: 'article/:id', component: ArticleDetailComponent },
       {
         path: 'article/edit/:id',
         component: ArticleEditComponent,
         canDeactivate: [PreventUnsavedChangesGuard]
       },
-      { path: 'article-cards', component: ArticleCardsComponent },
       { path: 'import', component: ImportComponent },
       { path: 'export', component: ExportComponent },
       { path: 'management', component: ManagementComponent }

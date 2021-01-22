@@ -1,52 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url("app/styles/r4u-tab.css");
 
+:root {
+  --primary-color: #158cba;
+}
 
-/*TODO: use scheme colors and general variables !!!*/
-
-.tab-panel {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-  }
-  
-  .nav-tabs > li.open, .article-tabset > .nav-tabs > li:hover {
-    border-bottom: 4px solid rgb(138, 189, 209)
-  }
-  
-  .article-tabset > .nav-tabs > li.open > a, .article-tabset > .nav-tabs > li:hover > a {
-    border: 0;
-    background: none !important;
-    color: #333333;
-  }
-  
-  .article-tabset > .nav-tabs > li.open > a > i, .article-tabset > .nav-tabs > li:hover > a > i {
-    color: #a6a6a6;
-  }
-  
-  .article-tabset > .nav-tabs > li.open .dropdown-menu, .article-tabset > .nav-tabs > li:hover .dropdown-menu {
-    margin-top: 0px;
-  }
-  
-  .article-tabset > .nav-tabs > li.active {
-    border-bottom: 4px solid #158cba;
-    position: relative;
-  }
-  
-  .article-tabset > .nav-tabs > li.active > a {
-    border: 0 !important;
-    color: #333333;
-  }
-  
-  .article-tabset > .nav-tabs > li.active > a > i {
-    color: #404040;
-  }
-  
-  .article-tabset > .tab-content {
-    margin-top: -3px;
-    background-color: #fff;
-    border: 0;
-    border-top: 1px solid #eee;
-    padding: 15px 0;
-  }
-  
+body {
+  background-color: rgba(0,0,0,.05);
+}

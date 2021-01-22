@@ -7,6 +7,10 @@
         </div>
     </div>
 
+    <div class="col-1">
+        <a class="nav-link" routerLink="/article-list"><i class="fa fa-arrow-left back-link"></i></a>
+    </div>
+
     <div class="col-3">
         <div class="card">
             <img src="{{article.photoUrl || '../assets/euroshop.bmp'}}" alt="article image"
@@ -37,7 +41,7 @@
         </div>
     </div>
 
-    <div class="col-9">
+    <div class="col-8">
         <tabset class="article-tabset">
             <tab heading='General info'>
                 <form #editForm="ngForm" id="editForm" (ngSubmit)="updateArticle()">
@@ -51,9 +55,6 @@
                     <input [(ngModel)]="article.purchasePrice" type="number" name="purchasePrice" class=form-control
                         mx-2>
                 </form>
-            </tab>
-            <tab heading='Photos'>
-                <p>Photo edit will come here</p>
             </tab>
         </tabset>
     </div>

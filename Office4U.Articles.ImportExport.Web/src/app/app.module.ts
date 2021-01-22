@@ -17,14 +17,12 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { ImportComponent } from './import/import.component';
 import { ExportComponent } from './export/export.component';
 import { ManagementComponent } from './management/management.component';
-import { ArticlesComponent } from './articles/articles.component';
-import { TitleComponent } from './title/title.component';
-import { ArticleCardsComponent } from './articles/article-cards/article-cards.component';
-import { ArticleCardComponent } from './articles/article-card/article-card.component';
+import { ArticleListComponent } from './articles/article-list/article-list.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { TitleComponent } from './components/title/title.component';
 
 @NgModule({
   declarations: [
@@ -38,10 +36,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     ImportComponent,
     ExportComponent,
     ManagementComponent,
-    ArticlesComponent,
+    ArticleListComponent,
     TitleComponent,
-    ArticleCardsComponent,
-    ArticleCardComponent,
     ArticleDetailComponent,
     ArticleEditComponent
   ],

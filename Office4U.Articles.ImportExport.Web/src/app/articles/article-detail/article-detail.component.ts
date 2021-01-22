@@ -1,5 +1,6 @@
+import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 
 import { Article } from '../../_models/article';
@@ -15,10 +16,11 @@ export class ArticleDetailComponent implements OnInit {
   galleryOptions: Array<NgxGalleryOptions>;
   galleryImages: Array<NgxGalleryImage>;
   pageTitle = "Article Detail";
-  
+
   constructor(
     private articleService: ArticleService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.loadArticle();
@@ -53,5 +55,9 @@ export class ArticleDetailComponent implements OnInit {
         this.article = article
         this.galleryImages = this.getImages();
       });
+  }
+
+  OnClickEdit() {
+    this.router.navigateByUrl('/article/edit/' + this.article.id.toString());
   }
 }

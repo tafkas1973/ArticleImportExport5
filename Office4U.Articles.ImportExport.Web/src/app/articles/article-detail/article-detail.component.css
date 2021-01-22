@@ -15,3 +15,7 @@
 img.card-img-top.img-thumbnail {
     border: none;
 }
+
+.back-link {
+    font-size: 25px;
+}

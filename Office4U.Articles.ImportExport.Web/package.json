@@ -20,7 +20,6 @@
     "@angular/platform-browser-dynamic": "~11.0.9",
     "@angular/router": "~11.0.9",
     "@kolkov/ngx-gallery": "^1.2.3",
-    "@swimlane/ngx-datatable": "^19.0.0",
     "bootstrap": "4.1.1",
     "bootswatch": "^4.5.3",
     "font-awesome": "^4.7.0",
