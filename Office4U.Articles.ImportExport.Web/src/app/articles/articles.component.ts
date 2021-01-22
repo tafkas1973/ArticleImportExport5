@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { Article } from '../_models/article';
+import { ArticleParams } from '../_models/articleParams';
 import { Pagination } from '../_models/pagination';
 import { ArticleService } from '../_services/article.service';
 
@@ -16,6 +17,7 @@ export class ArticlesComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
+  articleParams: ArticleParams;
 
   columns = [
     { prop: 'code', width: 100, flexGrow: true, sortable: false },
@@ -40,23 +42,33 @@ export class ArticlesComponent implements OnInit {
   ];
   rows = [];
 
-  constructor(private articleService: ArticleService) { }
+  constructor(
+    private articleService: ArticleService) {
+    this.articleParams = this.articleService.getArticleParams();
+  }
 
   ngOnInit(): void {
     this.loadArticles();
   }
 
   loadArticles() {
+    this.articleService.setArticleParams(this.articleParams);
     this.articleService
-      .getArticles(this.pageNumber, this.pageSize)
+      .getArticles(this.articleParams)
       .subscribe(response => {
         this.articles = response.result;
         this.pagination = response.pagination;
       })
   }
 
+  resetFilters() {
+    this.articleParams = this.articleService.resetArticleParams();
+    this.loadArticles();
+  }
+
   pageChanged(event: any) {
-    this.pageNumber = event.page;
+    this.articleParams.pageNumber = event.page;
+    this.articleService.setArticleParams(this.articleParams);
     this.loadArticles();
   }
 }

@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
   <div class="container">
-    <a class="navbar-brand" routerLink="/" routerLinkActive='active'>Article Import/Export</a>
+    <a class="navbar-brand mr-5" routerLink="/" routerLinkActive='active'>Article Import/Export</a>
 
     <div class="dropdown mr-3" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-      <a class="dropdown-toggle text-light" dropdownToggle><i class="fa fa-caret-right mr-2"></i>Articles</a>
+      <a class="dropdown-toggle text-light" dropdownToggle><i class="fa fa-bullseye mr-2"></i>Articles</a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="nav-link" routerLink="/articles"><i class="fa fa-list-ul mr-2"></i>Article List</a>
         <div class="dropdown-divider"></div>

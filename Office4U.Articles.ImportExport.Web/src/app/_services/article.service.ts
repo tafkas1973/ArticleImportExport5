@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Article } from '../_models/article';
-import { Paginatedresult } from '../_models/pagination';
+import { ArticleParams } from '../_models/articleParams';
+import { PaginatedResult } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -13,34 +14,52 @@ import { Paginatedresult } from '../_models/pagination';
 export class ArticleService {
   baseUrl = environment.apiUrl;
   articles: Array<Article> = [];
-  paginatedResult: Paginatedresult<Array<Article>> = new Paginatedresult<Array<Article>>();
+  paginatedResult: PaginatedResult<Array<Article>> = new PaginatedResult<Array<Article>>();
+  articleParams: ArticleParams;
+  articleCache = new Map();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.articleParams = new ArticleParams();
+    console.log('Article service creation');
+  }
 
-  getArticles(page?: number, itemsPerPage?: number) {
-    let params = new HttpParams();
+  getArticleParams() {
+    return this.articleParams;
+  }
 
-    if (page !== null && itemsPerPage !== null) {
-      params = params.append('pageNumber', page.toString());
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
+  setArticleParams(params: ArticleParams) {
+    this.articleParams = params;
+  }
 
-    // we also want the response body with the pagination info
-    return this.http.get<Array<Article>>(this.baseUrl + 'articles', { observe: 'response', params })
-      .pipe(
-        map(response => {
-          this.paginatedResult.result = response.body;
-          if (response.headers.get('Pagination') !== null) {
-            this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-          }
-          return this.paginatedResult;
-        })
-      );
+  resetArticleParams(): ArticleParams {
+    this.articleParams = new ArticleParams();
+    return this.articleParams;
+  }
+
+  getArticles(articleParams: ArticleParams) {
+    var key = Object.values(articleParams).join('-');
+    var response = this.articleCache.get(key);
+    if (response) return of(response);
+
+    let params = this.GetPaginationHeaders(articleParams);
+
+    params = this.AppendFilterParams(params, articleParams);
+    params = this.AppendOrderByParam(params, articleParams);
+
+    console.log('params', articleParams);
+    return this.getPaginatedResult<Array<Article>>(this.baseUrl + 'articles', params)
+      .pipe(map(response => {
+        this.articleCache.set(key, response);
+        return response;
+      }));
   }
 
   getArticle(id: number) {
-    const article = this.articles.find(a => a.id === id);
-    if (article !== undefined) return of(article);
+    const article = [...this.articleCache.values()]
+      .reduce((prevArr, currElem) => prevArr.concat(currElem.result), [])
+      .find((article: Article) => article.id === id);
+    if (article) return of(article);
+
     return this.http.get<Article>(this.baseUrl + 'articles/' + id.toString());
   }
 
@@ -51,6 +70,62 @@ export class ArticleService {
         map(() => {
           const index = this.articles.indexOf(article);
           this.articles[index] = article;
+        })
+      );
+  }
+
+  private GetPaginationHeaders(articleParams: ArticleParams) {
+    let params = new HttpParams();
+
+    params = params.append('pageNumber', articleParams.pageNumber.toString());
+    params = params.append('pageSize', articleParams.pageSize.toString());
+    return params;
+  }
+
+  private AppendFilterParams(params: HttpParams, articleParams: ArticleParams) {
+    if (articleParams.code !== undefined) {
+      params = params.append('code', articleParams.code);
+    }
+    if (articleParams.supplierId !== undefined) {
+      params = params.append('supplierId', articleParams.supplierId);
+    }
+    if (articleParams.supplierReference !== undefined) {
+      params = params.append('supplierReference', articleParams.supplierReference);
+    }
+    if (articleParams.name1 !== undefined) {
+      params = params.append('name1', articleParams.name1);
+    }
+    if (articleParams.unit !== undefined) {
+      params = params.append('unit', articleParams.unit);
+    }
+    if (articleParams.purchasePriceMin !== undefined) {
+      params = params.append('purchasePriceMin', articleParams.purchasePriceMin.toString());
+    }
+    if (articleParams.purchasePriceMax !== undefined) {
+      params = params.append('purchasePriceMax', articleParams.purchasePriceMax.toString());
+    }
+
+    return params;
+  }
+
+  private AppendOrderByParam(params: HttpParams, articleParams: ArticleParams) {
+    params = params.append('orderBy', articleParams.orderBy);
+
+    return params;
+  }
+
+  private getPaginatedResult<T>(url: string, params: HttpParams) {
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+
+    // we also want the response body back with pagination info (observe response)
+    return this.http.get<T>(url, { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return paginatedResult;
         })
       );
   }

@@ -25,9 +25,9 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArticleDto>>> GetArticles(
-            [FromQuery] UserParams userParams)
+            [FromQuery] ArticleParams articleParams)
         {
-            var articles = await _articleRespository.GetArticlesAsync(userParams);
+            var articles = await _articleRespository.GetArticlesAsync(articleParams);
 
             var articlesToReturn = _mapper.Map<IEnumerable<ArticleDto>>(articles);
 

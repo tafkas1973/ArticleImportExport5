@@ -8,7 +8,7 @@ namespace Office4U.Articles.ImportExport.Api.Interfaces
     public interface IArticleRepository
     {
         // TODO: use generics
-        Task<PagedList<Article>> GetArticlesAsync(UserParams userParams);
+        Task<PagedList<Article>> GetArticlesAsync(ArticleParams articleParams);
         Task<Article> GetArticleByIdAsync(int id);
         void Update(Article article);
         Task<bool> SaveAllAsync();

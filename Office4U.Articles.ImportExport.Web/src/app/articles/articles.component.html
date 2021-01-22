@@ -1,25 +1,96 @@
 <app-title [title]="pageTitle"></app-title>
 
+<div class="container mt-3">
+  <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadArticles()" autocomplete="off">
+    <div class="form-group">
+      <label>Code: </label>
+      <input type="text" class="form-control m-1" style="width: 70px;" name="code" [(ngModel)]="articleParams.code">
+    </div>
+    <div class="form-group">
+      <label>Supplier Id: </label>
+      <input type="text" class="form-control m-1" style="width: 70px;" name="supplierId"
+        [(ngModel)]="articleParams.supplierId">
+    </div>
+    <div class="form-group">
+      <label>Supplier Reference: </label>
+      <input type="text" class="form-control m-1" style="width: 70px;" name="supplierReference"
+        [(ngModel)]="articleParams.supplierReference">
+    </div>
+    <div class="form-group">
+      <label>Name: </label>
+      <input type="text" class="form-control m-1" style="width: 70px;" name="name1" [(ngModel)]="articleParams.name1">
+    </div>
+    <div class="form-group">
+      <label>Unit: </label>
+      <input type="text" class="form-control m-1" style="width: 70px;" name="unit" [(ngModel)]="articleParams.unit">
+    </div>
+    <div class="form-group">
+      <label>Min. Purchase Price: </label>
+      <input type="number" class="form-control m-1" style="width: 70px;" name="purchasePriceMin"
+        [(ngModel)]="articleParams.purchasePriceMin">
+    </div>
+    <div class="form-group">
+      <label>Max. Purchase Price: </label>
+      <input type="number" class="form-control m-1" style="width: 70px;" name="purchasePriceMax"
+        [(ngModel)]="articleParams.purchasePriceMax">
+    </div>
+
+    <div class="col">
+      <div class="btn-group float-right">
+        <button type="button" class="btn btn-primary" name='orderBy' (click)="loadArticles()" btnRadio='code'
+          [(ngModel)]="articleParams.orderBy">
+          Code
+        </button>
+        <button type="button" class="btn btn-primary" name='orderBy' (click)="loadArticles()" btnRadio='name'
+          [(ngModel)]="articleParams.orderBy">
+          Name
+        </button>
+        <button type="button" class="btn btn-primary" name='orderBy' (click)="loadArticles()" btnRadio='supplierReference'
+          [(ngModel)]="articleParams.orderBy">
+          Supplier Ref.
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" type="submit">Apply Filters</button>
+      <button class="btn btn-info" (click)="resetFilters()">Reset Filters</button>
+    </div>
+  </form>
+</div>
+
+<div class="text center mt-3" [hidden]="!pagination">
+  <h3>Filter matches - {{pagination?.totalItems}} found, showing page
+    {{pagination?.currentPage}}/{{pagination?.totalPages}}
+  </h3>
+</div>
+
+
 <!--
   https://volosoft.com/Blog/attribute-directives-to-avoid-repetition-in-angular-templates
 -->
 
 <!--[rows]="articles$ | async" -->
 
-<ngx-datatable [rows]="articles" [columnMode]="ColumnMode.force" [columns]="columns"
-  [headerHeight]="50" rowHeight="auto" class="material">
+<ngx-datatable [rows]="articles" [columnMode]="ColumnMode.force" [columns]="columns" [headerHeight]="50"
+  rowHeight="auto" class="material">
 </ngx-datatable>
 
-<div class="d-flex justify-content-center mt-5" *ngIf="pagination">
-  <pagination 
-      [boundaryLinks]="true" 
-      [totalItems]="pagination.totalItems" 
-      [itemsPerPage]="pagination.itemsPerPage"
-      [(ngModel)]="pagination.currentPage" 
-      (pageChanged)="pageChanged($event)" 
-      previousText="&lsaquo;"
-      nextText="&rsaquo;" 
-      firstText="&laquo;" 
-      lastText="&raquo;">
+
+
+<div class="row">
+  <button routerLink='/articles/1' class="btn btn-primary mt-5">
+    <i class="fa fa-info-circle"></i> Goto Article 1 </button>   
+</div>
+
+
+<div class="d-flex justify-content-end mt-3" *ngIf="pagination">
+  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+    [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
+    firstText="&laquo;" lastText="&raquo;">
   </pagination>
 </div>
+
+
+
+

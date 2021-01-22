@@ -15,7 +15,7 @@ namespace Office4U.Articles.ImportExport.Api.Services
         private readonly SymmetricSecurityKey _key;
         public TokenService(IConfiguration configuration)
         {
-            _key  = new SymmetricSecurityKey(
+            _key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(configuration["TokenKey"]));
         }
 
@@ -23,7 +23,8 @@ namespace Office4U.Articles.ImportExport.Api.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

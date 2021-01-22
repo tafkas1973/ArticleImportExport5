@@ -5,6 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -20,7 +21,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     TabsModule.forRoot(),
     NgxGalleryModule,
     NgxSpinnerModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ButtonsModule.forRoot()
   ],
   exports: [
     BsDropdownModule,
@@ -29,7 +31,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     TabsModule,
     NgxGalleryModule,
     NgxSpinnerModule,
-    PaginationModule
+    PaginationModule,
+    ButtonsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
