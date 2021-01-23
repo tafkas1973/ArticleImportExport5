@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
+import { StyleManagerService } from '../_services/style-manager.service';
 
 @Component({
   selector: 'app-nav',
@@ -10,13 +11,14 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent implements OnInit {
   model: any = {};
+  switchToMode = 'Dark mode';
 
   constructor(
     public accountService: AccountService,
     private router: Router,
-    private toastr: ToastrService) { }
+    private styleManagerService: StyleManagerService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   login() {
     this.accountService
@@ -35,5 +37,15 @@ export class NavComponent implements OnInit {
     this.accountService.currentUser$
       .subscribe(user => {
       }, error => console.log(error))
+  }
+
+  onChangeTheme() {
+    if (this.switchToMode == 'Dark mode') {
+      this.styleManagerService.setStyle('theme', '../../assets/darkly.bootstrap.min.css');
+      this.switchToMode = 'Light mode';
+    } else {
+      this.styleManagerService.setStyle('theme', '../../assets/lumen.bootstrap.min.css');
+      this.switchToMode = 'Dark mode';
+    }
   }
 }

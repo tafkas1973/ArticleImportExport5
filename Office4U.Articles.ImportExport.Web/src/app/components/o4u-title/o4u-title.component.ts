@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './o4u-title.component.html',
   styleUrls: ['./o4u-title.component.css']
 })
-export class TitleComponent implements OnInit {
+export class O4uTitleComponent implements OnInit {
   @Input() title: string = "(no title)";
 
   constructor() { }

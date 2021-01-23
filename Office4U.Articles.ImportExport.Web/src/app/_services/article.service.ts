@@ -48,7 +48,6 @@ export class ArticleService {
     return this.getPaginatedResult<Array<Article>>(this.baseUrl + 'articles', params)
       .pipe(map(response => {
         this.articleCache.set(key, response);
-        console.log('cache', this.articleCache);
         return response;
       }));      
   }

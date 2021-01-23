@@ -22,8 +22,10 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
-import { TitleComponent } from './components/o4u-title/o4u-title.component';
+import { ArticleListFilterComponent } from './articles/article-list-filter/article-list-filter.component';
+import { O4uLabelInputComponent } from './components/o4u-label-input/o4u-label-input.component';
 import { O4uTableComponent } from './components/o4u-table/o4u-table.component';
+import { O4uTitleComponent } from './components/o4u-title/o4u-title.component';
 
 @NgModule({
   declarations: [
@@ -38,10 +40,12 @@ import { O4uTableComponent } from './components/o4u-table/o4u-table.component';
     ExportComponent,
     ManagementComponent,
     ArticleListComponent,
-    TitleComponent,
     ArticleDetailComponent,
-    ArticleEditComponent,
-    O4uTableComponent
+    ArticleEditComponent,    
+    ArticleListFilterComponent,
+    O4uLabelInputComponent,
+    O4uTableComponent,
+    O4uTitleComponent
   ],
   imports: [
     BrowserModule,

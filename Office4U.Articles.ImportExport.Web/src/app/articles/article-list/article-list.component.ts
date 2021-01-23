@@ -52,7 +52,15 @@ export class ArticleListComponent implements OnInit {
     this.loadArticles();
   }
 
-  onRowClick(articleId: number) {
+  onRowClick(articleId: number): void {
     this.router.navigateByUrl("/article/" + articleId.toString());
+  }
+
+  onLoadArticles(event: any): void {
+    this.loadArticles();
+  }
+
+  onResetFilters(event: any): void {
+    this.resetFilters();
   }
 }
