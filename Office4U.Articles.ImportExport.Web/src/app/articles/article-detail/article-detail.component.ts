@@ -56,8 +56,4 @@ export class ArticleDetailComponent implements OnInit {
         this.galleryImages = this.getImages();
       });
   }
-
-  OnClickEdit() {
-    this.router.navigateByUrl('/article/edit/' + this.article.id.toString());
-  }
 }

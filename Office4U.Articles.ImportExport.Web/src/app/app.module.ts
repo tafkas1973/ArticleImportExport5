@@ -22,7 +22,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
-import { TitleComponent } from './components/title/title.component';
+import { TitleComponent } from './components/o4u-title/o4u-title.component';
 
 @NgModule({
   declarations: [
