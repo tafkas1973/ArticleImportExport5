@@ -20,7 +20,6 @@ export class ArticleService {
 
   constructor(private http: HttpClient) {
     this.articleParams = new ArticleParams();
-    console.log('Article service creation');
   }
 
   getArticleParams() {
@@ -46,12 +45,12 @@ export class ArticleService {
     params = this.AppendFilterParams(params, articleParams);
     params = this.AppendOrderByParam(params, articleParams);
 
-    console.log('params', articleParams);
     return this.getPaginatedResult<Array<Article>>(this.baseUrl + 'articles', params)
       .pipe(map(response => {
         this.articleCache.set(key, response);
+        console.log('cache', this.articleCache);
         return response;
-      }));
+      }));      
   }
 
   getArticle(id: number) {
