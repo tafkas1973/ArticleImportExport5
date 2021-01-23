@@ -18,6 +18,8 @@ export class ArticleListComponent implements OnInit {
   pageSize = 5;
   pagination: Pagination;
   articleParams: ArticleParams;
+  columnTitles: Array<string> = ['Code', 'Supplier Id', 'Supplier Reference', 'Name', 'Unit', 'Purchase Price(€)'];
+  rowCellPropertyNames: Array<string> = ['code', 'supplierId', 'supplierReference', 'name1', 'unit', 'purchasePrice'];
 
   constructor(
     private articleService: ArticleService,

@@ -62,13 +62,13 @@
 </div>
 
 <div class="text center mt-3" [hidden]="!pagination">
-  <h4 [hidden]="pagination.totalItems == 0">Filter matches - {{pagination?.totalItems}} found, showing page
+  <h4 [hidden]="pagination?.totalItems == 0">Filter matches - {{pagination?.totalItems}} found, showing page
     {{pagination?.currentPage}}/{{pagination?.totalPages}}
   </h4>
-  <h4 [hidden]="pagination.totalItems != 0">No matching articles found </h4>
+  <h4 [hidden]="pagination?.totalItems != 0">No matching articles found </h4>
 </div>
 
-<table class="table table-striped table-bordered table-hover" [hidden]="!articles || articles.length === 0">
+<!--<table class="table table-striped table-bordered table-hover" [hidden]="!articles || articles.length === 0">
   <thead class="bg-primary">
     <tr>
       <th>Code</th>
@@ -89,7 +89,10 @@
       <td class="text-right">€ {{article.purchasePrice}}</td>
     </tr>
   </tbody>
-</table>
+</table>-->
+
+<o4u-table [dataRows]="articles" [doubleClickUrl]="'/article/'" [columnTitles]="columnTitles"
+  [rowCellPropertyNames]="rowCellPropertyNames"></o4u-table>
 
 <div class="d-flex justify-content-end mt-3" *ngIf="pagination">
   <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"

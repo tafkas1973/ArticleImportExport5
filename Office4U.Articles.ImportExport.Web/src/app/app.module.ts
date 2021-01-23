@@ -23,6 +23,7 @@ import { ArticleDetailComponent } from './articles/article-detail/article-detail
 import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { TitleComponent } from './components/o4u-title/o4u-title.component';
+import { O4uTableComponent } from './components/o4u-table/o4u-table.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { TitleComponent } from './components/o4u-title/o4u-title.component';
     ArticleListComponent,
     TitleComponent,
     ArticleDetailComponent,
-    ArticleEditComponent
+    ArticleEditComponent,
+    O4uTableComponent
   ],
   imports: [
     BrowserModule,
