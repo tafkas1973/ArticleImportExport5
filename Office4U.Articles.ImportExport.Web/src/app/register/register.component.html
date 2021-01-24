@@ -1,8 +1,11 @@
+<!--TODO : use controlvalueaccessor to reduce code-->
+
 <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
     <h2 class="text-center text-primary">Sign up</h2>
     <hr>
     <div class="form-group">
         <input [class.is-invalid]='registerForm.get("username").errors &&
+       registerForm.get("username").touched' [class.is-valid]='!registerForm.get("username").errors &&
        registerForm.get("username").touched' type="text" class="form-control" formControlName="username"
             placeholder="Username">
         <div *ngIf="registerForm.get('password').hasError('required')" class="invalid-feedback">Please enter a username
@@ -10,6 +13,7 @@
     </div>
     <div class="form-group">
         <input [class.is-invalid]='registerForm.get("password").errors &&
+       registerForm.get("password").touched' [class.is-valid]='!registerForm.get("password").errors &&
        registerForm.get("password").touched' type="text" class="form-control" formControlName="password"
             placeholder="Password">
         <div *ngIf="registerForm.get('password').hasError('required')" class="invalid-feedback">Please enter a password
@@ -21,6 +25,7 @@
     </div>
     <div class="form-group">
         <input [class.is-invalid]='registerForm.get("confirmPassword").errors &&
+       registerForm.get("confirmPassword").touched' [class.is-valid]='!registerForm.get("confirmPassword").errors &&
        registerForm.get("confirmPassword").touched' type="text" class="form-control" formControlName="confirmPassword"
             placeholder="Confirm Password">
         <div *ngIf="registerForm.get('confirmPassword').hasError('required')" class="invalid-feedback">Please enter a
@@ -37,7 +42,7 @@
             </li>
         </ul>
     </div>
-    
+
     <div class="form-group text-center">
         <button class="btn btn-success mr-2" type="submit">Register</button>
         <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
