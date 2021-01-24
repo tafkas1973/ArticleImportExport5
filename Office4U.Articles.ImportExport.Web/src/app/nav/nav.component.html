@@ -42,14 +42,13 @@
         <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out mr-2"></i> Logout</a>
       </div>
     </div>
+
+    <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
+      autocomplete="off">
+      <input name="username" [(ngModel)]="model.username" class="form-control mr-2" type="text" placeholder="Username">
+      <input name="password" [(ngModel)]="model.password" class="form-control mr-2" type="password"
+        placeholder="Password">
+      <button class="btn btn-success" type="submit">Login</button>
+    </form>
   </div>
-
-  <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
-    autocomplete="off">
-    <input name="username" [(ngModel)]="model.username" class="form-control mr-2" type="text" placeholder="Username">
-    <input name="password" [(ngModel)]="model.password" class="form-control mr-2" type="password"
-      placeholder="Password">
-    <button class="btn btn-success" type="submit">Login</button>
-  </form>
-
 </nav>
