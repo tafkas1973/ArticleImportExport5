@@ -26,6 +26,10 @@ import { ArticleListFilterComponent } from './articles/article-list-filter/artic
 import { O4uLabelInputComponent } from './components/o4u-label-input/o4u-label-input.component';
 import { O4uTableComponent } from './components/o4u-table/o4u-table.component';
 import { O4uTitleComponent } from './components/o4u-title/o4u-title.component';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
 
 @NgModule({
   declarations: [
@@ -41,8 +45,12 @@ import { O4uTitleComponent } from './components/o4u-title/o4u-title.component';
     ManagementComponent,
     ArticleListComponent,
     ArticleDetailComponent,
-    ArticleEditComponent,    
+    ArticleEditComponent,
     ArticleListFilterComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    RolesModalComponent,
     O4uLabelInputComponent,
     O4uTableComponent,
     O4uTitleComponent
@@ -57,9 +65,9 @@ import { O4uTitleComponent } from './components/o4u-title/o4u-title.component';
     SharedModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

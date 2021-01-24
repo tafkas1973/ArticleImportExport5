@@ -1,8 +1,11 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Office4U.Articles.ImportExport.Api.Data;
+using Office4U.Articles.ImportExport.Api.Entities;
 
 namespace Office4U.Articles.ImportExport.Api.Extensions
 {
@@ -13,8 +16,19 @@ namespace Office4U.Articles.ImportExport.Api.Extensions
             IConfiguration configuration)
         {
             services
+                .AddIdentityCore<AppUser>(opt =>
+                {
+                    opt.Password.RequireNonAlphanumeric = false;
+                })
+                .AddRoles<AppRole>()
+                .AddRoleManager<RoleManager<AppRole>>()
+                .AddSignInManager<SignInManager<AppUser>>()
+                .AddRoleValidator<RoleValidator<AppRole>>()
+                .AddEntityFrameworkStores<DataContext>();
+
+            services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => 
+                .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -25,6 +39,12 @@ namespace Office4U.Articles.ImportExport.Api.Extensions
                         ValidateAudience = false
                     };
                 });
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+            });
 
             return services;
         }

@@ -26,7 +26,7 @@ export class AccountService {
             localStorage.setItem('user', JSON.stringify(user));
             this.currentUserSource.next(user);
           }
-         })
+        })
       );
   }
 
@@ -39,17 +39,27 @@ export class AccountService {
             localStorage.setItem('user', JSON.stringify(user))
             this.currentUserSource.next(user);
           }
-          return user;          
+          return user;
         })
       );
   }
 
   setCurrentUser(user: User) {
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role;
+    // if there's only one role, it comes from the server as s atring, but we need an array
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    console.log('roles', user.roles);
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
 
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  getDecodedToken(token: any) {
+    return JSON.parse(atob(token.split('.')[1]));
   }
 }

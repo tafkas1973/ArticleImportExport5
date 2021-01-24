@@ -8,22 +8,26 @@ using Office4U.Articles.ImportExport.Api.DTOs;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 
 namespace Office4U.Articles.ImportExport.Api.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly DataContext _context;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public AccountController(
-            DataContext context,
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
             ITokenService tokenService,
             IMapper mapper)
         {
+            _signInManager = signInManager;
+            _userManager = userManager;
             _tokenService = tokenService;
-            _context = context;
             _mapper = mapper;
         }
 
@@ -34,51 +38,56 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
 
             var user = _mapper.Map<AppUser>(registerDto);
 
-            using var hmac = new HMACSHA512();
-
             user.UserName = registerDto.Username.ToLower();
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-            user.PasswordSalt = hmac.Key;
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if (!result.Succeeded) return BadRequest(result.Errors);
+
+            var roleResult = await _userManager.AddToRoleAsync(user, "User");
+
+            if (!roleResult.Succeeded) return BadRequest(result.Errors);
 
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs
+                Token = await _tokenService.CreateToken(user),
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
+            };
+        }
+
+       [HttpPost("login")]
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        {
+            var dbUser = await _userManager.Users
+                .Include(u => u.Photos)
+                .SingleOrDefaultAsync(u => u.UserName == loginDto.Username.ToLower());
+
+            if (dbUser == null) return Unauthorized("Invalid username");
+
+            var result = await _signInManager.CheckPasswordSignInAsync(
+                user: dbUser,
+                password: loginDto.Password,
+                lockoutOnFailure: false
+            );
+
+            if (!result.Succeeded) return Unauthorized();
+
+            return new UserDto
+            {
+                Username = dbUser.UserName,
+                Token = await _tokenService.CreateToken(dbUser),
+                KnownAs = dbUser.KnownAs,
+                Gender = dbUser.Gender
             };
         }
 
         private async Task<bool> UserExists(string username)
         {
-            return await _context.Users.AnyAsync(u => u.UserName == username.ToLower());
-        }
-
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        {
-            var dbUser = await _context.Users
-                .SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
-
-            if (dbUser == null) return Unauthorized("Invalid username");
-
-            using var hmac = new HMACSHA512(dbUser.PasswordSalt);
-
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != dbUser.PasswordHash[i]) return Unauthorized("Invalid password");
-            }
-
-            return new UserDto
-            {
-                Username = dbUser.UserName,
-                Token = _tokenService.CreateToken(dbUser),
-                KnownAs = dbUser.KnownAs
-            };
+            return await _userManager.Users
+                .AnyAsync(u => u.UserName == username
+                .ToLower());
         }
     }
 }
