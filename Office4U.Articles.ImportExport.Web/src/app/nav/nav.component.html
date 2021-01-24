@@ -18,8 +18,8 @@
       </ng-container>
     </ul>
 
-    <div *appHasRole="['Admin']">
-      <div class="dropdown mr-3" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+    <ng-container *ngIf="(accountService.currentUser$ | async) as user">
+      <div class="dropdown mr-3" *appHasRole="['Admin']" dropdown>
         <a class="dropdown-toggle text-light" dropdownToggle>Management</a>
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a class="nav-link" routerLink="/admin"><i class="fa fa-unlock mr-2"></i>
@@ -32,7 +32,7 @@
           <a class="nav-link" routerLink="/users"><i class="fa fa-user mr-2"></i> Users</a>
         </div>
       </div>
-    </div>
+    </ng-container>
 
     <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.username | titlecase}}</a>

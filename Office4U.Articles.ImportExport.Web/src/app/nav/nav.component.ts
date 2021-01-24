@@ -16,7 +16,8 @@ export class NavComponent implements OnInit {
   constructor(
     public accountService: AccountService,
     private router: Router,
-    private styleManagerService: StyleManagerService) { }
+    private styleManagerService: StyleManagerService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void { }
 
@@ -25,6 +26,7 @@ export class NavComponent implements OnInit {
       .login(this.model)
       .subscribe(response => {
         this.router.navigateByUrl('/article-list');
+        this.toastr.success('Login successful');
       })
   }
 
