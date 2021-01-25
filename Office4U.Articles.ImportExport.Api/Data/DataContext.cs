@@ -17,11 +17,10 @@ namespace Office4U.Articles.ImportExport.Api.Data
            IdentityUserToken<int>
        >
     {
-        public DataContext(DbContextOptions options) : base(options)
-        {
-        }
+        public DataContext() { }
+        public DataContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<Article> Articles { get; set; }
+        public virtual DbSet<Article> Articles { get; set; }
         public DbSet<ArticlePhoto> ArticlePhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

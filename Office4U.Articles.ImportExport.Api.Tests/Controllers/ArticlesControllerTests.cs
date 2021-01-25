@@ -7,6 +7,7 @@ using Office4U.Articles.ImportExport.Api.DTOs;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Helpers;
 using Office4U.Articles.ImportExport.Api.Interfaces;
+using Retail4U.Office4U.WebApi.Tools.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,36 +16,66 @@ namespace Office4U.Articles.ImportExport.Api.Tests.Controllers
 {
     public class ArticlesControllerTests : ControllerTestsBase
     {
-        [Test]
-        public async Task GetArticles_WithEmptyParams_ReturnsArticleListWithFiveItems()
+        private Mock<IArticleRepository> _articleRepositoryMock;
+        private ArticleParams _articleParams;
+        private IEnumerable<Article> _testArticles;
+        private ArticlesController _articlesController;
+
+        [SetUp]
+        public void Setup()
         {
-            // arrange
-            var articleRepositoryMock = new Mock<IArticleRepository>();
-            var articleParams = new ArticleParams();
-            var testArticles = new List<Article>() {
-                new Article() { Id = 1, Code = "Article1", Name1="first article", SupplierId = "sup1", SupplierReference="sup ref 1", Unit="ST", PurchasePrice = 50.00M},
-                new Article() { Id = 2, Code = "Article2", Name1="second article", SupplierId = "sup1", SupplierReference="sup ref 2", Unit="ST", PurchasePrice = 100.00M},
-                new Article() { Id = 3, Code = "Article3", Name1="third article", SupplierId = "sup2", SupplierReference="sup ref 10", Unit="ST", PurchasePrice = 150.00M}
+            _articleRepositoryMock = new Mock<IArticleRepository>() { DefaultValue = DefaultValue.Mock };
+            _articleParams = new ArticleParams();
+
+            _testArticles = new List<Article>() {
+                new ArticleBuilder().WithId(1).WithCode("Article1").WithName1("1st article").WithSupplierId("sup1").WithSupplierReference("sup1 ref 1").WithUnit("ST").WithPurchasePrice(10.00M).Build(),
+                new ArticleBuilder().WithId(2).WithCode("Article2").WithName1("2nd article").WithSupplierId("sup2").WithSupplierReference("sup1 ref 2").WithUnit("ST").WithPurchasePrice(20.00M).Build(),
+                new ArticleBuilder().WithId(3).WithCode("Article3").WithName1("3rd article").WithSupplierId("sup3").WithSupplierReference("sup2 ref 1").WithUnit("ST").WithPurchasePrice(30.00M).Build()
             }.AsEnumerable();
-            var articlesPagedList = new PagedList<Article>(items: testArticles, count: 3, pageNumber: 1, pageSize: 10);
-            articleRepositoryMock
-                .Setup(m => m.GetArticlesAsync(articleParams))
+            var articlesPagedList = new PagedList<Article>(items: _testArticles, count: 3, pageNumber: 1, pageSize: 10);
+
+            _articleRepositoryMock
+                .Setup(m => m.GetArticlesAsync(_articleParams))
                 .ReturnsAsync(articlesPagedList);
+            _articleRepositoryMock
+                .Setup(m => m.GetArticleByIdAsync(2))
+                .ReturnsAsync(articlesPagedList[1]);
 
             var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfiles>()));
+            _articlesController = new ArticlesController(_articleRepositoryMock.Object, mapper) { ControllerContext = TestControllerContext };
+        }
 
-
-            var articlesController = new ArticlesController(articleRepositoryMock.Object, mapper) { ControllerContext = TestControllerContext };
+        [Test]
+        public async Task GetArticles_WithDefaultPAgingValues_ReturnsArticleDtoListWith3Items()
+        {
+            // arrange
 
             // act
-            var result = await articlesController.GetArticles(articleParams);
+            var result = await _articlesController.GetArticles(_articleParams);
 
             // assert
+            _articleRepositoryMock.Verify(m => m.GetArticlesAsync(It.IsAny<ArticleParams>()), Times.Once);
             Assert.That(result, Is.Not.Null);
             Assert.That(result.GetType(), Is.EqualTo(typeof(ActionResult<IEnumerable<ArticleDto>>)));
             Assert.That(result.Result.GetType(), Is.EqualTo(typeof(OkObjectResult)));
             Assert.That(((ObjectResult)result.Result).Value.GetType(), Is.EqualTo(typeof(List<ArticleDto>)));
             Assert.That(((List<ArticleDto>)((ObjectResult)result.Result).Value).Count, Is.EqualTo(3));
+        }
+
+        [Test]
+        public async Task GetArticle_WithIdEqualsTo2_ReturnsTheCorrectArticleDto()
+        {
+            // arrange
+
+            // act
+            var result = await _articlesController.GetArticle(2);
+
+            // assert
+            _articleRepositoryMock.Verify(m => m.GetArticleByIdAsync(It.IsAny<int>()), Times.Once);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.GetType(), Is.EqualTo(typeof(ActionResult<ArticleDto>)));
+            Assert.That(result.Value.GetType(), Is.EqualTo(typeof(ArticleDto)));
+            Assert.That(result.Value.Id, Is.EqualTo(2));
         }
     }
 }
