@@ -21,7 +21,10 @@ namespace Office4U.Articles.ImportExport.Api.Data.SeedData
 
             var roles = new List<AppRole> {
                 new AppRole() {Name="User"},
-                new AppRole() {Name="Admin"}
+                new AppRole() {Name="Admin"},
+                new AppRole() {Name="ManageArticles"},
+                new AppRole() {Name="ImportArticles"},
+                new AppRole() {Name="ExportArticles"}
             };
 
             foreach (var role in roles)

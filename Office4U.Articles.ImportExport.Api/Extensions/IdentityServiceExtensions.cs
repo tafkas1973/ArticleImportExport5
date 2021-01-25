@@ -43,7 +43,9 @@ namespace Office4U.Articles.ImportExport.Api.Extensions
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                opt.AddPolicy("RequireManageArticlesRole", policy => policy.RequireRole("ManageArticles"));
+                opt.AddPolicy("RequireImportArticlesRole", policy => policy.RequireRole("ImportArticles"));
+                opt.AddPolicy("RequireExportArticlesRole", policy => policy.RequireRole("ExportArticles"));
             });
 
             return services;

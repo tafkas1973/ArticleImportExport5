@@ -9,6 +9,7 @@ using Office4U.Articles.ImportExport.Api.Entities;
 
 namespace Api.Controllers
 {
+    [Authorize(Policy = "RequireAdminRole")]
     public class AdminController : BaseApiController
     {
         private readonly UserManager<AppUser> _userManager;
@@ -16,8 +17,7 @@ namespace Api.Controllers
         {
             _userManager = userManager;
         }
-
-        [Authorize(Policy = "RequireAdminRole")]
+        
         [HttpGet("users-with-roles")]
         public async Task<ActionResult> GetUsersWithRoles()
         {
@@ -56,14 +56,6 @@ namespace Api.Controllers
             if (!result.Succeeded) return BadRequest("Failed to remove from roles");
 
             return Ok(await _userManager.GetRolesAsync(user));
-        }
-
-
-        [Authorize(Policy = "ModeratePhotoRole")]
-        [HttpGet("photos-to-moderate")]
-        public ActionResult GetPhotosForModeration()
-        {
-            return Ok("Admins or Moderators can see this");
         }
     }
 }

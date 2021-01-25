@@ -18,6 +18,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
         private IUnitOfWork _unitOfWork;
         private IArticleRepository _articleRepository;
         private List<Article> _testArticles;
+        private Mock<DbSet<Article>> _articleDbSetMock;
         private Mock<DataContext> _dataContextMock;
         private readonly int _defaultPageSize = 10;
 
@@ -41,11 +42,10 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             // sort by name1 : 10th article/11th article/12th article/1st article/2nd article/3rd article/4th article/5th article/6th article/7th article/8th article/9th article
             // sort by supref : sup1 ref 1/sup1 ref 2/sup2 ref 1/sup2 ref 2/sup3 ref 1/sup3 ref 2/sup4 ref 1/sup4 ref 2/sup5 ref 1/sup5 ref 2/sup6 ref 1/sup6 ref 2
 
-            var articleDbSetMock = _testArticles.AsQueryable().BuildMockDbSet();
+            _articleDbSetMock = _testArticles.AsQueryable().BuildMockDbSet();
 
             _dataContextMock = new Mock<DataContext>();
-            _dataContextMock.Setup(m => m.Articles).Returns(articleDbSetMock.Object);
-            _dataContextMock.Setup(m => m.Set<Article>()).Returns(articleDbSetMock.Object);
+            _dataContextMock.Setup(m => m.Articles).Returns(_articleDbSetMock.Object);            
 
             _unitOfWork = new UnitOfWork(_dataContextMock.Object);
             _articleRepository = _unitOfWork.ArticleRepository;
@@ -337,11 +337,13 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Arrange
             var updatedArticle = _testArticles.First();
             updatedArticle.Code = "Article01 updated";
+            _dataContextMock.Setup(m => m.Set<Article>()).Returns(_articleDbSetMock.Object).Verifiable();
+            _dataContextMock.Object.Attach(updatedArticle);
 
             //Act
             _articleRepository.Update(updatedArticle);
 
-            //Assert
+            //Assert            
             _dataContextMock.Verify(m => m.Update(updatedArticle), Times.Once);
         }
     }

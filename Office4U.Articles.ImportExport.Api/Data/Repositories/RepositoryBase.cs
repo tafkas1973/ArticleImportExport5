@@ -14,10 +14,5 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
         {
             _context.Update(entity);
         }
-
-        //public void Update(Article article)
-        //{
-        //    _context.Update(article);
-        //}
     }
 }

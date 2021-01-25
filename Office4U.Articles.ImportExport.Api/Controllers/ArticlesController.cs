@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Office4U.Articles.ImportExport.Api.DTOs;
 using Office4U.Articles.ImportExport.Api.Extensions;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Office4U.Articles.ImportExport.Api.Controllers
 {
+    [Authorize(Policy = "RequireManageArticlesRole")]
     [ApiController]
     [Route("api/[controller]")]
     public class ArticlesController : ControllerBase

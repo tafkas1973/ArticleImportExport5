@@ -54,7 +54,10 @@ export class UserManagementComponent implements OnInit {
     const userRoles = user.roles;
     const availableRoles: Array<any> = [
       { name: 'Admin', value: 'Admin' },
-      { name: 'User', value: 'User' }
+      { name: 'User', value: 'User' },
+      { name: 'ManageArticles', value: 'ManageArticles' },
+      { name: 'ImportArticles', value: 'ImportArticles' },
+      { name: 'ExportArticles', value: 'ExportArticles' }
     ];
 
     availableRoles.forEach(role => {

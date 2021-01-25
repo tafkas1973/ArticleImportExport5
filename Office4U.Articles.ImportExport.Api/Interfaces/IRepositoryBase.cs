@@ -5,6 +5,5 @@ namespace Office4U.Articles.ImportExport.Api.Interfaces
     public interface IRepositoryBase
     {
         void Update<T>(T entity);
-        //void Update(Article article);
     }
 }
