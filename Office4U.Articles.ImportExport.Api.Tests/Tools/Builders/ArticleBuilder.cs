@@ -1,4 +1,5 @@
 ﻿using Office4U.Articles.ImportExport.Api.Entities;
+using System.Collections.Generic;
 
 namespace Retail4U.Office4U.WebApi.Tools.Data
 {
@@ -11,6 +12,7 @@ namespace Retail4U.Office4U.WebApi.Tools.Data
         private string _name1;
         private string _unit;
         private decimal _purchasePrice;
+        private ICollection<ArticlePhoto> _photos;
 
         public ArticleBuilder()
         {
@@ -22,6 +24,7 @@ namespace Retail4U.Office4U.WebApi.Tools.Data
             _id = 1;
             _name1 = "name";
             _purchasePrice = 10;
+            _photos = new List<ArticlePhoto>();
             return this;
         }
 
@@ -78,7 +81,8 @@ namespace Retail4U.Office4U.WebApi.Tools.Data
                 SupplierReference = _supplierReference,
                 Name1 = _name1,
                 Unit = _unit,
-                PurchasePrice = _purchasePrice
+                PurchasePrice = _purchasePrice,
+                Photos = _photos
             };
             return _article;
         }

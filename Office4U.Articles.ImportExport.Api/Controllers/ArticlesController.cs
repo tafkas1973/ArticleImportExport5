@@ -64,7 +64,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
 
             if (await _articleRespository.SaveAllAsync()) return NoContent();
 
-            return BadRequest("Failed to update user");
+            return BadRequest("Failed to update article");
         }
     }
 }

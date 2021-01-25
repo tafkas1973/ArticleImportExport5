@@ -41,7 +41,8 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 
         public void Update(Article article)
         {
-            _context.Entry(article).State = EntityState.Modified;
+            //_context.Entry(article).State = EntityState.Modified;
+            _context.Update(article);
         }
 
         private static IQueryable<Article> FilterQuery(
@@ -95,7 +96,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             {
                 "code" => articles.OrderBy(a => a.Code),
                 "supplierReference" => articles.OrderBy(a => a.SupplierReference),
-                "name1" => articles.OrderBy(a => a.Name1),
+                "name" => articles.OrderBy(a => a.Name1),
                 _ => articles.OrderBy(a => a.Code)
             };
 

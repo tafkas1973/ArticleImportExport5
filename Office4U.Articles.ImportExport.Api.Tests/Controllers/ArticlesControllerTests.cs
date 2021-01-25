@@ -46,7 +46,7 @@ namespace Office4U.Articles.ImportExport.Api.Tests.Controllers
         }
 
         [Test]
-        public async Task GetArticles_WithDefaultPAgingValues_ReturnsArticleDtoListWith3Items()
+        public async Task GetArticles_WithDefaultPagingValues_ReturnsArticleDtoListWith3Items()
         {
             // arrange
 
@@ -76,6 +76,23 @@ namespace Office4U.Articles.ImportExport.Api.Tests.Controllers
             Assert.That(result.GetType(), Is.EqualTo(typeof(ActionResult<ArticleDto>)));
             Assert.That(result.Value.GetType(), Is.EqualTo(typeof(ArticleDto)));
             Assert.That(result.Value.Id, Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task GetArticle_WithNonExistingId_ReturnsTheCorrectArticleDto()
+        {
+            // arrange
+            var articleUpdateDto = new ArticleUpdateDto() { Id = 5, Name1 = "Article01 Updated" };
+             
+            // act
+            var result = await _articlesController.UpdateArticle(articleUpdateDto);
+
+            // assert
+            _articleRepositoryMock.Verify(m => m.Update(It.IsAny<Article>()), Times.Once);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.GetType(), Is.EqualTo(typeof(BadRequestObjectResult)));
+            Assert.That(((BadRequestObjectResult)result).StatusCode, Is.EqualTo(400));
+            Assert.That(((BadRequestObjectResult)result).Value, Is.EqualTo("Failed to update article"));
         }
     }
 }

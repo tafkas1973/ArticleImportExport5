@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using MockQueryable.Moq;
 using Moq;
 using NUnit.Framework;
@@ -8,8 +8,6 @@ using Office4U.Articles.ImportExport.Api.Helpers;
 using Retail4U.Office4U.WebApi.Tools.Data;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Office4U.Articles.ImportExport.Api.Data.Repositories
@@ -17,12 +15,14 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
     public class ArticleRepositoryTests
     {
         private ArticleRepository _articleRepository;
+        private List<Article> _testArticles;
+        private Mock<DataContext> _dataContextMock;
         private readonly int _defaultPageSize = 10;
 
         [SetUp]
         public void Setup()
         {
-            var testArticles = new List<Article>() {
+            _testArticles = new List<Article>() {
                 new ArticleBuilder().WithId(1) .WithCode("Article01").WithName1("1st article") .WithSupplierId("sup1") .WithSupplierReference("sup2 ref 1").WithUnit("ST").WithPurchasePrice(10.00M).Build(),
                 new ArticleBuilder().WithId(2) .WithCode("Article02").WithName1("2nd article") .WithSupplierId("sup2") .WithSupplierReference("sup2 ref 2").WithUnit("ST").WithPurchasePrice(20.00M).Build(),
                 new ArticleBuilder().WithId(3) .WithCode("Article03").WithName1("3rd article") .WithSupplierId("sup3") .WithSupplierReference("sup4 ref 1").WithUnit("ST").WithPurchasePrice(30.00M).Build(),
@@ -38,14 +38,15 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             };
             // sort by name1 : 10th article-11th article-12th article-1st article-2nd article-3rd article-4th article-5th article-6th article-7th article-8th article-9th article
             // sort by supref : sup1 ref 1-sup1 ref 2-sup2 ref 1-sup2 ref 2-sup3 ref 1-sup3 ref 2-sup4 ref 1-sup4 ref 2-sup5 ref 1-sup5 ref 2-sup6 ref 1-sup6 ref 2
-            var articleDbSetMock = testArticles.AsQueryable().BuildMockDbSet();
 
-            var dataContextMock = new Mock<DataContext>();
-            dataContextMock
+            var articleDbSetMock = _testArticles.AsQueryable().BuildMockDbSet();
+
+            _dataContextMock = new Mock<DataContext>();
+            _dataContextMock
                 .Setup(m => m.Articles)
                 .Returns(articleDbSetMock.Object);
 
-            _articleRepository = new ArticleRepository(dataContextMock.Object);
+            _articleRepository = new ArticleRepository(_dataContextMock.Object);
         }
 
         [Test]
@@ -59,8 +60,9 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
+            Assert.That(result.First().Photos.GetType(), Is.EqualTo(typeof(List<ArticlePhoto>)));
             Assert.That(result.Count, Is.EqualTo(_defaultPageSize));
-            Assert.That(result[0].Code, Is.EqualTo("Article01"));
+            Assert.That(result.First().Code, Is.EqualTo("Article01"));
             Assert.That(result[9].Code, Is.EqualTo("Article10"));
         }
 
@@ -78,7 +80,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(5));
-            Assert.That(result[0].Code, Is.EqualTo("Article06"));
+            Assert.That(result.First().Code, Is.EqualTo("Article06"));
             Assert.That(result[4].Code, Is.EqualTo("Article10"));
         }
 
@@ -94,7 +96,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(2));
-            Assert.That(result[0].Code, Is.EqualTo("Article11"));
+            Assert.That(result.First().Code, Is.EqualTo("Article11"));
             Assert.That(result[1].Code, Is.EqualTo("Article12"));
         }
 
@@ -112,7 +114,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(_defaultPageSize));
-            Assert.That(result[0].Code, Is.EqualTo("Article01"));
+            Assert.That(result.First().Code, Is.EqualTo("Article01"));
             Assert.That(result[9].Code, Is.EqualTo("Article10"));
         }
 
@@ -128,7 +130,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(_defaultPageSize));
-            Assert.That(result[0].SupplierReference, Is.EqualTo("sup1 ref 1"));
+            Assert.That(result.First().SupplierReference, Is.EqualTo("sup1 ref 1"));
             Assert.That(result[9].SupplierReference, Is.EqualTo("sup5 ref 2"));
         }
 
@@ -144,7 +146,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(_defaultPageSize));
-            Assert.That(result[0].Name1, Is.EqualTo("10th article"));
+            Assert.That(result.First().Name1, Is.EqualTo("10th article"));
             Assert.That(result[9].Name1, Is.EqualTo("7th article"));
         }
 
@@ -177,7 +179,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(3));
-            Assert.That(result[0].Code, Is.EqualTo("Article10"));
+            Assert.That(result.First().Code, Is.EqualTo("Article10"));
             Assert.That(result[1].Code, Is.EqualTo("Article11"));
             Assert.That(result[2].Code, Is.EqualTo("Article12"));
         }
@@ -195,7 +197,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(4));
-            Assert.That(result[0].Code, Is.EqualTo("Article01"));
+            Assert.That(result.First().Code, Is.EqualTo("Article01"));
             Assert.That(result[3].Code, Is.EqualTo("Article12"));
         }
 
@@ -212,7 +214,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(2));
-            Assert.That(result[0].Code, Is.EqualTo("Article07"));
+            Assert.That(result.First().Code, Is.EqualTo("Article07"));
             Assert.That(result[1].Code, Is.EqualTo("Article08"));
         }
 
@@ -229,7 +231,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(1));
-            Assert.That(result[0].Code, Is.EqualTo("Article03"));
+            Assert.That(result.First().Code, Is.EqualTo("Article03"));
         }
 
 
@@ -245,7 +247,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(8));
-            Assert.That(result[0].Code, Is.EqualTo("Article05"));
+            Assert.That(result.First().Code, Is.EqualTo("Article05"));
             Assert.That(result[7].Code, Is.EqualTo("Article12"));
         }
 
@@ -261,7 +263,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(8));
-            Assert.That(result[0].Code, Is.EqualTo("Article01"));
+            Assert.That(result.First().Code, Is.EqualTo("Article01"));
             Assert.That(result[7].Code, Is.EqualTo("Article08"));
         }
 
@@ -278,7 +280,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(4));
-            Assert.That(result[0].Code, Is.EqualTo("Article05"));
+            Assert.That(result.First().Code, Is.EqualTo("Article05"));
             Assert.That(result[3].Code, Is.EqualTo("Article08"));
         }
 
@@ -295,8 +297,49 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             //Assert
             Assert.That(result.GetType(), Is.EqualTo(typeof(PagedList<Article>)));
             Assert.That(result.Count, Is.EqualTo(5));
-            Assert.That(result[0].Code, Is.EqualTo("Article05"));
+            Assert.That(result.First().Code, Is.EqualTo("Article05"));
             Assert.That(result[4].Code, Is.EqualTo("Article12"));
+        }
+
+
+        [Test]
+        public async Task GetArticleByIdAsync_WithExistingId_ReturnsArticle()
+        {
+            //Arrange
+
+            //Act
+            var result = await _articleRepository.GetArticleByIdAsync(3);
+
+            //Assert
+            Assert.That(result.GetType(), Is.EqualTo(typeof(Article)));
+            Assert.That(result.Photos.GetType(), Is.EqualTo(typeof(List<ArticlePhoto>)));
+            Assert.That(result.Code, Is.EqualTo("Article03"));
+        }
+
+        [Test]
+        public async Task GetArticleByIdAsync_WithNonExistingId_ReturnsNull()
+        {
+            //Arrange
+
+            //Act
+            var result = await _articleRepository.GetArticleByIdAsync(99);
+
+            //Assert
+            Assert.That(result, Is.Null);
+        }
+
+        [Test]
+        public void Update_WithChangedEntity_PerformsAContextUpdate()
+        {
+            //Arrange
+            var updatedArticle = _testArticles.First();
+            updatedArticle.Code = "Article01 updated";
+
+            //Act
+            _articleRepository.Update(updatedArticle);
+
+            //Assert
+            _dataContextMock.Verify(m => m.Update(It.IsAny<Article>()), Times.Once);
         }
     }
 }
