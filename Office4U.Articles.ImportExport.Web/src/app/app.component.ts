@@ -10,7 +10,7 @@ import { AccountService } from './_services/account.service';
 export class AppComponent implements OnInit {
   users: any;
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService) { }
 
   ngOnInit() {
     // this is also done in accountservice, it is also necessary here to keep the user creds when refreshing
@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
 
   setCurrentUser() {
     const user: User = JSON.parse(localStorage.getItem('user'));
-    this.accountService.setCurrentUser(user);
-    console.log('setCurrentUser', user);
+    if (user) {
+      this.accountService.setCurrentUser(user);
+    }
   }
 }
