@@ -41,7 +41,6 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 
         public void Update(Article article)
         {
-            //_context.Entry(article).State = EntityState.Modified;
             _context.Update(article);
         }
 

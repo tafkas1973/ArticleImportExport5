@@ -138,7 +138,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
         public async Task GetArticlesAsync_WithOrderByName1_ReturnsArticlesThatMatchCriteria()
         {
             //Arrange
-            var articleParams = new ArticleParams() { OrderBy = "name1" };
+            var articleParams = new ArticleParams() { OrderBy = "name" };
 
             //Act
             var result = await _articleRepository.GetArticlesAsync(articleParams);
