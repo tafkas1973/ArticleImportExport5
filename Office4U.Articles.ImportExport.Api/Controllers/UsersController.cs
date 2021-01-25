@@ -14,21 +14,21 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
     [Authorize]
     public class UsersController : BaseApiController
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public UsersController(
-            IUserRepository userRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _mapper = mapper;
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsersAsync(
             [FromQuery] UserParams userParams)
         {
-            var users = await _userRepository.GetUsersAsync(userParams);
+            var users = await _unitOfWork.UserRepository.GetUsersAsync(userParams);
 
             var usersToReturn = _mapper.Map<IEnumerable<AppUserDto>>(users);
 
@@ -47,7 +47,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<AppUserDto>> GetUser(string username)
         {
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
             var userToReturn = _mapper.Map<AppUserDto>(user);
 

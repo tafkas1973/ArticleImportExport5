@@ -17,7 +17,7 @@ namespace Office4U.Articles.ImportExport.Api.Extensions
             IConfiguration configuration)
         {
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>

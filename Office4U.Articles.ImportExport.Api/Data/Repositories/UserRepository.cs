@@ -1,14 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Office4U.Articles.ImportExport.Api.Entities;
-using Office4U.Articles.ImportExport.Api.Interfaces;
 using Office4U.Articles.ImportExport.Api.Helpers;
+using Office4U.Articles.ImportExport.Api.Interfaces;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 {
-    public class UserRepository : BaseRepository, IUserRepository
+    public class UserRepository : RepositoryBase, IUserRepository
     {
         public UserRepository(DataContext context) : base(context) { }
 
@@ -34,16 +33,6 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
                 users,
                 userParams.PageNumber,
                 userParams.PageSize);
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public void Update(AppUser user)
-        {
-            _context.Entry(user).State = EntityState.Modified;
         }
     }
 }

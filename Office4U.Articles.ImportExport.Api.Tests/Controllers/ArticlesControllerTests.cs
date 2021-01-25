@@ -16,6 +16,7 @@ namespace Office4U.Articles.ImportExport.Api.Tests.Controllers
 {
     public class ArticlesControllerTests : ControllerTestsBase
     {
+        private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IArticleRepository> _articleRepositoryMock;
         private ArticleParams _articleParams;
         private IEnumerable<Article> _testArticles;
@@ -23,8 +24,10 @@ namespace Office4U.Articles.ImportExport.Api.Tests.Controllers
 
         [SetUp]
         public void Setup()
-        {
+        {           
             _articleRepositoryMock = new Mock<IArticleRepository>() { DefaultValue = DefaultValue.Mock };
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _unitOfWorkMock.Setup(m => m.ArticleRepository).Returns(_articleRepositoryMock.Object);
             _articleParams = new ArticleParams();
 
             _testArticles = new List<Article>() {
@@ -42,7 +45,7 @@ namespace Office4U.Articles.ImportExport.Api.Tests.Controllers
                 .ReturnsAsync(articlesPagedList[1]);
 
             var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfiles>()));
-            _articlesController = new ArticlesController(_articleRepositoryMock.Object, mapper) { ControllerContext = TestControllerContext };
+            _articlesController = new ArticlesController(_unitOfWorkMock.Object, mapper) { ControllerContext = TestControllerContext };
         }
 
         [Test]

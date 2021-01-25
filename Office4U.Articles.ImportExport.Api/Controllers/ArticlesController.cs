@@ -13,21 +13,21 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
     [Route("api/[controller]")]
     public class ArticlesController : ControllerBase
     {
-        private readonly IArticleRepository _articleRespository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public ArticlesController(
-            IArticleRepository articleRespository,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _mapper = mapper;
-            _articleRespository = articleRespository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArticleDto>>> GetArticles(
             [FromQuery] ArticleParams articleParams)
         {
-            var articles = await _articleRespository.GetArticlesAsync(articleParams);
+            var articles = await _unitOfWork.ArticleRepository.GetArticlesAsync(articleParams);
 
             var articlesToReturn = _mapper.Map<IEnumerable<ArticleDto>>(articles);
 
@@ -45,7 +45,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
-            var article = await _articleRespository.GetArticleByIdAsync(id);
+            var article = await _unitOfWork.ArticleRepository.GetArticleByIdAsync(id);
 
             var articleToReturn = _mapper.Map<ArticleDto>(article);
 
@@ -56,13 +56,13 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         // TODO: restful: also specify id in parm list?
         public async Task<ActionResult> UpdateArticle(ArticleUpdateDto articleUpdateDto)
         {
-            var article = await _articleRespository.GetArticleByIdAsync(articleUpdateDto.Id);
+            var article = await _unitOfWork.ArticleRepository.GetArticleByIdAsync(articleUpdateDto.Id);
 
             _mapper.Map(articleUpdateDto, article);
 
-            _articleRespository.Update(article);
+            _unitOfWork.ArticleRepository.Update(article);
 
-            if (await _articleRespository.SaveAllAsync()) return NoContent();
+            if (await _unitOfWork.Complete()) return NoContent();
 
             return BadRequest("Failed to update article");
         }

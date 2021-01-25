@@ -7,7 +7,7 @@ using Office4U.Articles.ImportExport.Api.Interfaces;
 
 namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 {
-    public class ArticleRepository : BaseRepository, IArticleRepository
+    public class ArticleRepository : RepositoryBase, IArticleRepository
     {
         public ArticleRepository(DataContext context) : base(context) { }
 
@@ -32,16 +32,6 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             return await _context.Articles
                 .Include(a => a.Photos)
                 .SingleOrDefaultAsync(a => a.Id == id);
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public void Update(Article article)
-        {
-            _context.Update(article);
         }
 
         private static IQueryable<Article> FilterQuery(
