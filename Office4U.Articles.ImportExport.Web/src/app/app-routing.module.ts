@@ -14,7 +14,7 @@ import { ImportComponent } from './import/import.component';
 import { ManagementComponent } from './management/management.component';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
-import { AdminGuard } from './_guards/admin.guard';
+import { RoleGuard } from './_guards/role.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,17 +23,34 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'article-list', component: ArticleListComponent },
+      {
+        path: 'article-list', component: ArticleListComponent,
+        canActivate: [RoleGuard],
+        data: { role: 'ManageArticles' }
+      },
       { path: 'article/:id', component: ArticleDetailComponent },
       {
         path: 'article/edit/:id',
         component: ArticleEditComponent,
         canDeactivate: [PreventUnsavedChangesGuard]
       },
-      { path: 'import', component: ImportComponent },
-      { path: 'export', component: ExportComponent },
+      {
+        path: 'import', component: ImportComponent,
+        canActivate: [RoleGuard],
+        data: { role: 'ImportArticles' }
+      },
+      {
+        path: 'export', component: ExportComponent,
+        canActivate: [RoleGuard],
+        data: { role: 'ExportArticles' }
+      },
       { path: 'management', component: ManagementComponent },
-      { path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard] }
+      {
+        path: 'admin',
+        component: AdminPanelComponent,
+        canActivate: [RoleGuard],
+        data: { role: 'Admin' }
+      }
     ]
   },
   { path: 'errors', component: TestErrorsComponent },
