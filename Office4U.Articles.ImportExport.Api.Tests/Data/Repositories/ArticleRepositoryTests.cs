@@ -45,7 +45,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
             _articleDbSetMock = _testArticles.AsQueryable().BuildMockDbSet();
 
             _dataContextMock = new Mock<DataContext>();
-            _dataContextMock.Setup(m => m.Articles).Returns(_articleDbSetMock.Object);            
+            _dataContextMock.Setup(m => m.Articles).Returns(_articleDbSetMock.Object);
 
             _unitOfWork = new UnitOfWork(_dataContextMock.Object);
             _articleRepository = _unitOfWork.ArticleRepository;
@@ -331,20 +331,22 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
         }
 
         [Test]
-        [Ignore("Problem with generic in setup")]
+        //[Ignore("Problem with generic in setup")]
         public void Update_WithChangedEntity_PerformsAContextUpdate()
         {
             //Arrange
             var updatedArticle = _testArticles.First();
             updatedArticle.Code = "Article01 updated";
-            _dataContextMock.Setup(m => m.Set<Article>()).Returns(_articleDbSetMock.Object).Verifiable();
-            _dataContextMock.Object.Attach(updatedArticle);
+            var isContextUpdateCalled = false;
+            //_dataContextMock.Setup(m => m.Set<Article>()).Returns(_articleDbSetMock.Object).Verifiable();
+            _dataContextMock.Setup(m => m.Update(It.IsAny<object>())).Callback(() => isContextUpdateCalled = true);
 
             //Act
             _articleRepository.Update(updatedArticle);
 
             //Assert            
-            _dataContextMock.Verify(m => m.Update(updatedArticle), Times.Once);
+            //_dataContextMock.Verify(m => m.Update(updatedArticle), Times.Once); doesn't work with generic type
+            Assert.That(isContextUpdateCalled, Is.True);
         }
     }
 }
