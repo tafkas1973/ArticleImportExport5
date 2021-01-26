@@ -1,8 +1,9 @@
-import { Route } from '@angular/compiler/src/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Article } from '../../_models/article';
 import { ArticleService } from '../../_services/article.service';
@@ -12,7 +13,8 @@ import { ArticleService } from '../../_services/article.service';
   templateUrl: './article-detail.component.html',
   styleUrls: ['./article-detail.component.css']
 })
-export class ArticleDetailComponent implements OnInit {
+export class ArticleDetailComponent implements OnInit, OnDestroy {
+  notifier = new Subject();
   article: Article;
   galleryOptions: Array<NgxGalleryOptions>;
   galleryImages: Array<NgxGalleryImage>;
@@ -52,7 +54,9 @@ export class ArticleDetailComponent implements OnInit {
   }
 
   loadArticle() {
-    this.articleService.getArticle((Number)(this.route.snapshot.paramMap.get('id')))
+    this.articleService
+      .getArticle((Number)(this.route.snapshot.paramMap.get('id')))
+      .pipe(takeUntil(this.notifier))
       .subscribe(article => {
         this.article = article
         this.galleryImages = this.getImages();
@@ -69,6 +73,7 @@ export class ArticleDetailComponent implements OnInit {
       // TODO : unsubscribe !!
       this.articleService
         .deleteArticle(this.article.id)
+        .pipe(takeUntil(this.notifier))
         .subscribe(
           () => {
             this.toastr.success('Article has been deleted');
@@ -80,5 +85,10 @@ export class ArticleDetailComponent implements OnInit {
           }
         );
     }
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

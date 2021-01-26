@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -7,7 +9,8 @@ import { environment } from '../../../environments/environment';
   templateUrl: './test-errors.component.html',
   styleUrls: ['./test-errors.component.css']
 })
-export class TestErrorsComponent implements OnInit {
+export class TestErrorsComponent implements OnInit, OnDestroy {
+  notifier = new Subject();
   baseUrl = environment.apiUrl;
   validationErrors: Array<string> = [];
   pageTitle = "Errors";
@@ -20,6 +23,7 @@ export class TestErrorsComponent implements OnInit {
   get404Error() {
     this.http
       .get(this.baseUrl + 'buggy/not-found')
+      .pipe(takeUntil(this.notifier))
       .subscribe(response => {
         console.log(response);
       }, error => {
@@ -30,6 +34,7 @@ export class TestErrorsComponent implements OnInit {
   get400Error() {
     this.http
       .get(this.baseUrl + 'buggy/bad-request')
+      .pipe(takeUntil(this.notifier))
       .subscribe(response => {
         console.log(response);
       }, error => {
@@ -40,6 +45,7 @@ export class TestErrorsComponent implements OnInit {
   get500Error() {
     this.http
       .get(this.baseUrl + 'buggy/server-error')
+      .pipe(takeUntil(this.notifier))
       .subscribe(response => {
         console.log(response);
       }, error => {
@@ -50,6 +56,7 @@ export class TestErrorsComponent implements OnInit {
   get401Error() {
     this.http
       .get(this.baseUrl + 'buggy/auth')
+      .pipe(takeUntil(this.notifier))
       .subscribe(response => {
         console.log(response);
       }, error => {
@@ -60,11 +67,17 @@ export class TestErrorsComponent implements OnInit {
   get400ValidationError() {
     this.http
       .post(this.baseUrl + 'account/register', {})
+      .pipe(takeUntil(this.notifier))
       .subscribe(response => {
         console.log(response);
       }, error => {
         console.log(error);
         this.validationErrors = error;
       })
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

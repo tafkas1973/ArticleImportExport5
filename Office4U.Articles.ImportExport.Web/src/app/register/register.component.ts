@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -10,14 +11,14 @@ import { AccountService } from '../_services/account.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   @Output() cancelRegister = new EventEmitter();
+  notifier = new Subject();
   registerForm: FormGroup;
   validationErrors: Array<string> = [];
 
   constructor(
     private accountService: AccountService,
-    private toastr: ToastrService,
     private fb: FormBuilder,
     private router: Router) { }
 
@@ -44,6 +45,7 @@ export class RegisterComponent implements OnInit {
   register() {
     this.accountService
       .register(this.registerForm.value)
+      .pipe(takeUntil(this.notifier))      
       .subscribe(response => {
         this.router.navigateByUrl('/members');
         this.cancel();
@@ -54,5 +56,10 @@ export class RegisterComponent implements OnInit {
 
   cancel() {
     this.cancelRegister.emit(false);
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

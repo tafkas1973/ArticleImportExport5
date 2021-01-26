@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 import { User } from '../../_models/user';
 import { AdminService } from '../../_services/admin.service';
@@ -9,7 +12,8 @@ import { AdminService } from '../../_services/admin.service';
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
-export class UserManagementComponent implements OnInit {
+export class UserManagementComponent implements OnInit, OnDestroy {
+  notifier = new Subject();
   users: Partial<Array<User>>;
   bsModalRef: BsModalRef;
 
@@ -23,6 +27,7 @@ export class UserManagementComponent implements OnInit {
 
   getUsersWithRoles() {
     this.adminService.getUsersWithRoles()
+      .pipe(takeUntil(this.notifier))
       .subscribe(users => this.users = users); // TODO: unsubscribe !!
   }
 
@@ -36,12 +41,14 @@ export class UserManagementComponent implements OnInit {
     }
     this.bsModalRef = this.modalService.show(RolesModalComponent, config);
     this.bsModalRef.content.updateSelectedRoles
+      .pipe(takeUntil(this.notifier))    
       .subscribe(values => {
         const rolesToUpdate = {
           roles: [...values.filter(el => el.checked === true).map(el => el.name)]
         };
         if (rolesToUpdate) {
           this.adminService.updateUserRoles(user.username, rolesToUpdate.roles)
+            .pipe(takeUntil(this.notifier))
             .subscribe(() => {
               user.roles = [...rolesToUpdate.roles]
             })
@@ -77,4 +84,9 @@ export class UserManagementComponent implements OnInit {
     })
     return roles;
   }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
+  }  
 }

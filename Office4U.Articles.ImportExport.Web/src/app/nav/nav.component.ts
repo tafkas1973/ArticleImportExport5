@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AccountService } from '../_services/account.service';
 import { StyleManagerService } from '../_services/style-manager.service';
 
@@ -9,7 +11,8 @@ import { StyleManagerService } from '../_services/style-manager.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnInit, OnDestroy {
+  notifier = new Subject();
   model: any = {};
   switchToMode = 'Dark mode';
 
@@ -24,6 +27,7 @@ export class NavComponent implements OnInit {
   login() {
     this.accountService
       .login(this.model)
+      .pipe(takeUntil(this.notifier))
       .subscribe(response => {
         this.router.navigateByUrl('/article-list');
         this.toastr.success('Login successful');
@@ -37,6 +41,7 @@ export class NavComponent implements OnInit {
 
   getCurrentUser() {
     this.accountService.currentUser$
+      .pipe(takeUntil(this.notifier))
       .subscribe(user => {
       }, error => console.log(error))
   }
@@ -50,4 +55,9 @@ export class NavComponent implements OnInit {
       this.switchToMode = 'Dark mode';
     }
   }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
+  }  
 }

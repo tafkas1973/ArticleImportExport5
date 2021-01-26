@@ -21,6 +21,7 @@ export class HasRoleDirective implements OnInit {
         this.user = user;
       })
   }
+  
   ngOnInit(): void {
     // clear the view if no roles
     if (!this.user?.roles || this.user == null) {

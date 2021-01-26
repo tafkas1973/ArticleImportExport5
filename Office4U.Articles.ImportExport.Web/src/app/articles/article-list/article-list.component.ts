@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { switchMap, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { Article, ArticleForCreation } from '../../_models/article';
 import { ArticleParams } from '../../_models/articleParams';
@@ -15,7 +16,8 @@ import { ArticleCreateModalComponent } from '../article-create-modal/article-cre
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.css']
 })
-export class ArticleListComponent implements OnInit {
+export class ArticleListComponent implements OnInit, OnDestroy {
+  notifier = new Subject();
   articles: Array<Article>;
   pageTitle = "Articles";
   pageNumber = 1;
@@ -70,6 +72,7 @@ export class ArticleListComponent implements OnInit {
     this.articleService.setArticleParams(this.articleParams);
     this.articleService
       .getArticles(this.articleParams, forceLoad)
+      .pipe(takeUntil(this.notifier))      
       .subscribe(response => {
         this.articles = response.result;
         this.pagination = response.pagination;
@@ -106,6 +109,7 @@ export class ArticleListComponent implements OnInit {
           return this.articleService.createArticle(newArticle);
         })
       )
+      .pipe(takeUntil(this.notifier))      
       .subscribe(result => {
         // refresh activities
         this.onPageChanged({ page: 1 });
@@ -114,5 +118,10 @@ export class ArticleListComponent implements OnInit {
         Object.assign(this.validationErrors, error);
         this.toastr.error("Failed to create article");
       });
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }
