@@ -41,8 +41,9 @@ export class ArticleService {
     var response = this.articleCache.get(key);
     if (response && !forceLoad) return of(response);
 
-    let params = this.GetPaginationHeaders(articleParams);
+    this.articleCache.clear();
 
+    let params = this.GetPaginationHeaders(articleParams);
     params = this.AppendFilterParams(params, articleParams);
     params = this.AppendOrderByParam(params, articleParams);
 
@@ -63,7 +64,6 @@ export class ArticleService {
   }
 
   createArticle(article: ArticleForCreation): Observable<Object> {
-    console.log('serv create article', article);
     return this.http.post(this.baseUrl + 'articles', article);
   }
 

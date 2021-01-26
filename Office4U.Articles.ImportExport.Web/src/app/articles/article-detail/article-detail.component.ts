@@ -70,14 +70,13 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
   private removeArticle() {
     var response = confirm('Are you sure you want to delete this article?');
     if (response) {
-      // TODO : unsubscribe !!
       this.articleService
         .deleteArticle(this.article.id)
         .pipe(takeUntil(this.notifier))
         .subscribe(
           () => {
             this.toastr.success('Article has been deleted');
-            const navigationExtras: NavigationExtras = { state: { forceLoad: true } }; // evt. pass id to prevent server trip
+            const navigationExtras: NavigationExtras = { state: { forceLoad: true } }; 
             this.router.navigateByUrl('/article-list', navigationExtras);
           },
           error => {

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { truncate } from 'fs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -46,10 +47,10 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     this.loadArticles(this.forceLoad);
   }
 
-  onPageChanged(event: any) {
+  onPageChanged(event: any, forceLoad = false) {
     this.articleParams.pageNumber = event.page;
     this.articleService.setArticleParams(this.articleParams);
-    this.loadArticles(true);
+    this.loadArticles(forceLoad);
   }
 
   onRowClick(articleId: number): void {
@@ -72,7 +73,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     this.articleService.setArticleParams(this.articleParams);
     this.articleService
       .getArticles(this.articleParams, forceLoad)
-      .pipe(takeUntil(this.notifier))      
+      .pipe(takeUntil(this.notifier))
       .subscribe(response => {
         this.articles = response.result;
         this.pagination = response.pagination;
@@ -101,7 +102,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     // we do not want to nest observables, we want an observable chain 
     // use switchMap to create a new observable by taking another observable's data
 
-    // TODO: unsubscribe
     this.modalRef.content.createArticleEvent
       .pipe(
         tap(() => console.log('createArticleEvent event fired in modal')),
@@ -109,10 +109,10 @@ export class ArticleListComponent implements OnInit, OnDestroy {
           return this.articleService.createArticle(newArticle);
         })
       )
-      .pipe(takeUntil(this.notifier))      
+      .pipe(takeUntil(this.notifier))
       .subscribe(result => {
         // refresh activities
-        this.onPageChanged({ page: 1 });
+        this.onPageChanged({ page: 1 }, true);
         this.toastr.success("Article was created");
       }, error => {
         Object.assign(this.validationErrors, error);

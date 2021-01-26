@@ -33,7 +33,6 @@ export class ArticleEditComponent implements OnInit, OnDestroy {
   }
 
   loadArticle() {
-    // TODO: unsubscribe
     this.articleService
       .getArticle(Number(this.route.snapshot.paramMap.get('id')))
       .pipe(takeUntil(this.notifier))
