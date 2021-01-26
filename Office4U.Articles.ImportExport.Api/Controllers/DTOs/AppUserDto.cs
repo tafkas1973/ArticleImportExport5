@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Office4U.Articles.ImportExport.Api.DTOs
+namespace Office4U.Articles.ImportExport.Api.Controllers.DTOs
 {
     public class AppUserDto
     {

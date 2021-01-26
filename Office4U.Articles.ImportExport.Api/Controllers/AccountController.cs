@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Office4U.Articles.ImportExport.Api.DTOs;
-using Office4U.Articles.ImportExport.Api.Entities;
-using Office4U.Articles.ImportExport.Api.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Office4U.Articles.ImportExport.Api.Controllers.DTOs;
+using Office4U.Articles.ImportExport.Api.Entities;
+using Office4U.Articles.ImportExport.Api.Services.Interfaces;
 
 namespace Office4U.Articles.ImportExport.Api.Controllers
 {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Helpers;
-using Office4U.Articles.ImportExport.Api.Interfaces;
+using Office4U.Articles.ImportExport.Api.Data.Repositories.Interfaces;
 
 namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 {

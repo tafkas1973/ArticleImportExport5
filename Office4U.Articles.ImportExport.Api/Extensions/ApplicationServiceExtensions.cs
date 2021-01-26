@@ -4,9 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Office4U.Articles.ImportExport.Api.Data;
 using Office4U.Articles.ImportExport.Api.Data.Repositories;
+using Office4U.Articles.ImportExport.Api.Data.Repositories.Interfaces;
 using Office4U.Articles.ImportExport.Api.Helpers;
-using Office4U.Articles.ImportExport.Api.Interfaces;
 using Office4U.Articles.ImportExport.Api.Services;
+using Office4U.Articles.ImportExport.Api.Services.Interfaces;
 
 namespace Office4U.Articles.ImportExport.Api.Extensions
 {

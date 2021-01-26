@@ -4,3 +4,7 @@
     background: var(--primary-color);
     cursor: pointer;
 }
+
+.o4u-link {
+    font-size: 25px;
+}

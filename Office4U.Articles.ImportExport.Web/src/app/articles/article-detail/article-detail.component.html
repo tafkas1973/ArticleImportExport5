@@ -2,8 +2,9 @@
 
 <div class="row" *ngIf="article">
     <div class="col-1">
-        <a class="nav-link" routerLink="/article-list"><i class="fa fa-arrow-left link"></i></a>
-        <a class="nav-link" routerLink="/article/edit/{{article.id.toString()}}"><i class="fa fa-edit link"></i></a>
+        <a class="nav-link" routerLink="/article-list"><i class="fa fa-arrow-left o4u-link"></i></a>
+        <a class="nav-link" routerLink="/article/edit/{{article.id.toString()}}"><i class="fa fa-edit o4u-link"></i></a>
+        <a class="nav-link" routerLink="/article/remove/{{article.id.toString()}}"><i class="fa fa-trash o4u-link"></i></a>
     </div>
     <div class="col-3">
         <div class="card">

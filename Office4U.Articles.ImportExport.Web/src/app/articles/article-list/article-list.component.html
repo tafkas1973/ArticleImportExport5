@@ -8,17 +8,23 @@
   </app-article-list-filter>
 </div>
 
-<div class="text center mt-3" [hidden]="!pagination">
-  <h4 [hidden]="pagination?.totalItems == 0">Filter matches - {{pagination?.totalItems}} found, showing page
-    {{pagination?.currentPage}}/{{pagination?.totalPages}}
-  </h4>
-  <h4 [hidden]="pagination?.totalItems != 0">No matching articles found </h4>
+<div class="container mt-3">
+  <div class="text center float-left">
+    <h4 [hidden]="pagination?.totalItems == 0">Filter matches - {{pagination?.totalItems}} found, showing page
+      {{pagination?.currentPage}}/{{pagination?.totalPages}}
+    </h4>
+    <h4 [hidden]="pagination && pagination?.totalItems != 0">No matching articles found </h4>
+  </div>
+  <div>
+    <a class="nav-link float-right" [hidden]="!pagination || pagination.totalItems == 0" routerLink="/article-add"
+      routerLinkActive='active'><i class="fa fa-plus o4u-link mr-2"></i></a>
+  </div>
 </div>
 
 <o4u-table [dataRows]="articles" [doubleClickUrl]="'/article/'" [columnTitles]="columnTitles"
   [rowCellPropertyNames]="rowCellPropertyNames"></o4u-table>
 
-<div class="d-flex justify-content-end mt-3" *ngIf="pagination">
+<div class="d-flex justify-content-end mt-3" *ngIf="pagination?.totalItems > 0">
   <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
     [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
     firstText="&laquo;" lastText="&raquo;">

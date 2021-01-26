@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Helpers;
-using Office4U.Articles.ImportExport.Api.Interfaces;
+using Office4U.Articles.ImportExport.Api.Data.Repositories.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
 

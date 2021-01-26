@@ -1,6 +1,6 @@
 using System.Linq;
 using AutoMapper;
-using Office4U.Articles.ImportExport.Api.DTOs;
+using Office4U.Articles.ImportExport.Api.Controllers.DTOs;
 using Office4U.Articles.ImportExport.Api.Entities;
 
 namespace Office4U.Articles.ImportExport.Api.Helpers

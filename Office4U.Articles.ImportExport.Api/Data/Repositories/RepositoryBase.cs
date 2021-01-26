@@ -1,4 +1,4 @@
-using Office4U.Articles.ImportExport.Api.Interfaces;
+using Office4U.Articles.ImportExport.Api.Data.Repositories.Interfaces;
 
 namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 {
