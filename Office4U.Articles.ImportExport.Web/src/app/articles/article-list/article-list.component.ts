@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { truncate } from 'fs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -18,13 +17,15 @@ import { ArticleCreateModalComponent } from '../article-create-modal/article-cre
   styleUrls: ['./article-list.component.css']
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
+  public articleParams: ArticleParams;
+  isCollapsed = false;
+ public isInitialLoad = true;
   notifier = new Subject();
   articles: Array<Article>;
   pageTitle = "Articles";
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
-  articleParams: ArticleParams;
   columnTitles: Array<string> = ['Code', 'Supplier Id', 'Supplier Reference', 'Name', 'Unit', 'Purchase Price(€)'];
   rowCellPropertyNames: Array<string> = ['code', 'supplierId', 'supplierReference', 'name1', 'unit', 'purchasePrice'];
   validationErrors: Array<string> = [];
@@ -77,6 +78,10 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.articles = response.result;
         this.pagination = response.pagination;
+        if (!this.isInitialLoad) {
+          this.isCollapsed = true;
+        }
+        this.isInitialLoad = false;
       })
   }
 

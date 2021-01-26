@@ -8,6 +8,9 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 
 @NgModule({
   declarations: [],
@@ -22,7 +25,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     NgxSpinnerModule,
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    AccordionModule.forRoot(),
+    CollapseModule.forRoot()
   ],
   exports: [
     BsDropdownModule,
@@ -32,7 +37,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     NgxSpinnerModule,
     PaginationModule,
     ButtonsModule,
-    ModalModule
+    ModalModule,
+    AccordionModule,
+    CollapseModule
   ]
 })
 export class SharedModule { }

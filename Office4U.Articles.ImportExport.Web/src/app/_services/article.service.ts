@@ -41,7 +41,7 @@ export class ArticleService {
     var response = this.articleCache.get(key);
     if (response && !forceLoad) return of(response);
 
-    this.articleCache.clear();
+    if (forceLoad) this.articleCache.clear();
 
     let params = this.GetPaginationHeaders(articleParams);
     params = this.AppendFilterParams(params, articleParams);

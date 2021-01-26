@@ -19,7 +19,7 @@ export class ArticleCreateModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.articleCreateForm = this.fb.group({
-      code: ['', Validators.required], 
+      code: ['', Validators.required],
       name1: ['', Validators.required],
       supplierId: ['', Validators.required],
       supplierReference: ['', [Validators.required, Validators.maxLength(150)]],
