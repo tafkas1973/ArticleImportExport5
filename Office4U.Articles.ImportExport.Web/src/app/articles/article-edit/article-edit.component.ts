@@ -4,13 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { fade } from '../../_animations/animations';
 import { Article } from '../../_models/article';
 import { ArticleService } from '../../_services/article.service';
 
 @Component({
   selector: 'app-article-edit',
   templateUrl: './article-edit.component.html',
-  styleUrls: ['./article-edit.component.css']
+  styleUrls: ['./article-edit.component.css'],
+  animations: [fade]
 })
 export class ArticleEditComponent implements OnInit, OnDestroy {
   @ViewChild('editForm') editForm: NgForm;

@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { fade } from '../../_animations/animations';
 
 import { Article, ArticleForCreation } from '../../_models/article';
 import { ArticleParams } from '../../_models/articleParams';
@@ -14,12 +15,13 @@ import { ArticleCreateModalComponent } from '../article-create-modal/article-cre
 @Component({
   selector: 'app-articles',
   templateUrl: './article-list.component.html',
-  styleUrls: ['./article-list.component.css']
+  styleUrls: ['./article-list.component.css'],
+  animations: [fade]
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
   public articleParams: ArticleParams;
+  isInitialLoad = true;
   isCollapsed = false;
- public isInitialLoad = true;
   notifier = new Subject();
   articles: Array<Article>;
   pageTitle = "Articles";

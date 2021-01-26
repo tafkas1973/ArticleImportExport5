@@ -7,11 +7,13 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Article } from '../../_models/article';
 import { ArticleService } from '../../_services/article.service';
+import { fade } from '../../_animations/animations';
 
 @Component({
   selector: 'app-article-detail',
   templateUrl: './article-detail.component.html',
-  styleUrls: ['./article-detail.component.css']
+  styleUrls: ['./article-detail.component.css'],
+  animations: [fade]
 })
 export class ArticleDetailComponent implements OnInit, OnDestroy {
   notifier = new Subject();
