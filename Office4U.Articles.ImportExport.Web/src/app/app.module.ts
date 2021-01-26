@@ -28,8 +28,9 @@ import { O4uTableComponent } from './components/o4u-table/o4u-table.component';
 import { O4uTitleComponent } from './components/o4u-title/o4u-title.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
-import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
+import { ArticleCreateModalComponent } from './articles/article-create-modal/article-create-modal.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { HasRoleDirective } from './_directives/has-role.directive';
     RolesModalComponent,
     O4uLabelInputComponent,
     O4uTableComponent,
-    O4uTitleComponent
+    O4uTitleComponent,
+    ArticleCreateModalComponent
   ],
   imports: [
     BrowserModule,

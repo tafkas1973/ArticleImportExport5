@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Create Article</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="articleCreateForm" id="articleCreateForm" (ngSubmit)="createArticle()" autocomplete="off">
+        <h4 class="mt-3"><strong>Article Code</strong></h4>
+
+        <div class="form-group">
+            <input [class.is-invalid]='articleCreateForm.get("code").errors &&
+                articleCreateForm.get("code").touched' [class.is-valid]='!articleCreateForm.get("code").errors &&
+                articleCreateForm.get("code").touched' type="text" class="form-control" formControlName="code"
+                placeholder="Article Code">
+            <div *ngIf="articleCreateForm.get('code').hasError('required')" class="invalid-feedback">
+                Please enter an article code
+            </div>
+        </div>
+
+        <h4 class="mt-3"><strong>Article Name</strong></h4>
+
+        <div class="form-group">
+            <input [class.is-invalid]='articleCreateForm.get("name1").errors &&
+                articleCreateForm.get("name1").touched' [class.is-valid]='!articleCreateForm.get("name1").errors &&
+                articleCreateForm.get("name1").touched' type="text" class="form-control" formControlName="name1"
+                placeholder="Name">
+            <div *ngIf="articleCreateForm.get('name1').hasError('required')" class="invalid-feedback">
+                Please enter an article name
+            </div>
+        </div>
+
+        <h4 class="mt-3"><strong>Supplier Id</strong></h4>
+
+        <div class="form-group">
+            <input [class.is-invalid]='articleCreateForm.get("supplierId").errors &&
+                articleCreateForm.get("supplierId").touched' [class.is-valid]='!articleCreateForm.get("supplierId").errors &&
+                articleCreateForm.get("supplierId").touched' type="text" class="form-control"
+                formControlName="supplierId" placeholder="Supplier Id">
+            <div *ngIf="articleCreateForm.get('supplierId').hasError('required')" class="invalid-feedback">
+                Please enter a supplier id
+            </div>
+        </div>
+
+        <h4 class="mt-3"><strong>Supplier Reference</strong></h4>
+
+        <div class="form-group">
+            <textarea rows="3" maxlength="150" [class.is-invalid]='articleCreateForm.get("supplierReference").errors &&
+                articleCreateForm.get("supplierReference").touched' [class.is-valid]='!articleCreateForm.get("supplierReference").errors &&
+                articleCreateForm.get("supplierReference").touched' type="text" class="form-control"
+                formControlName="supplierReference" placeholder="Supplier Reference Id"></textarea>
+            <p class="pull-right text-counter text-muted">{{articleCreateForm.value?.supplierReference?.length ||
+                0}}/150</p>
+            <div *ngIf="articleCreateForm.get('supplierReference').hasError('required')" class="invalid-feedback">
+                Please enter a supplier reference</div>
+        </div>
+
+        <h4 class="mt-3"><strong>Price info (€/Unit)</strong></h4>
+
+        <div class="row">
+            <div class="form-group col-9 pl-15">
+                <input type="number" [class.is-invalid]='articleCreateForm.get("purchasePrice").errors &&
+                    articleCreateForm.get("purchasePrice").touched' [class.is-valid]='!articleCreateForm.get("purchasePrice").errors &&
+                    articleCreateForm.get("purchasePrice").touched' type="text" class="form-control"
+                    formControlName="purchasePrice" placeholder="Purchase Price(€)">
+                <div *ngIf="articleCreateForm.get('purchasePrice').hasError('required')" class="invalid-feedback">
+                    Please enter a purchase price
+                </div>
+            </div>
+            <div class="col-3 pr-15">
+                <input type="text" [class.is-invalid]='articleCreateForm.get("unit").errors &&
+                    articleCreateForm.get("unit").touched' [class.is-valid]='!articleCreateForm.get("unit").errors &&
+                    articleCreateForm.get("unit").touched' type="text" class="form-control" formControlName="unit"
+                    placeholder="Unit">
+                <div *ngIf="articleCreateForm.get('unit').hasError('required')" class="invalid-feedback">
+                    Please enter unit
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row mt-5" *ngIf="validationErrors.length > 0">
+    <ul class="text-danger">
+        <li *ngFor="let error of validationErrors">
+            {{error}}
+        </li>
+    </ul>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Cancel</button>
+    <button type="submit" class="btn btn-success" form="articleCreateForm"
+        [disabled]="!articleCreateForm.valid">Submit</button>
+</div>

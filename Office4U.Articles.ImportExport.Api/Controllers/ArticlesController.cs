@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Office4U.Articles.ImportExport.Api.Controllers.DTOs;
 using Office4U.Articles.ImportExport.Api.Data.Repositories.Interfaces;
+using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Extensions;
 using Office4U.Articles.ImportExport.Api.Helpers;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
             return Ok(articlesToReturn);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetArticle")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
             var article = await _unitOfWork.ArticleRepository.GetArticleByIdAsync(id);
@@ -52,6 +53,22 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
             var articleToReturn = _mapper.Map<ArticleDto>(article);
 
             return articleToReturn;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateActivity(ArticleForCreationDto newArticleDto)
+        {
+            var newArticle = _mapper.Map<Article>(newArticleDto);
+
+            _unitOfWork.ArticleRepository.Add(newArticle);
+
+            if (await _unitOfWork.Complete())
+            {
+                var articleToReturn = _mapper.Map<ArticleForReturnDto>(newArticle);
+                return CreatedAtRoute("GetArticle", new { id = newArticle.Id }, articleToReturn);
+            }
+
+            return BadRequest("Failed to create article");
         }
 
         [HttpPut]
@@ -67,6 +84,19 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
             if (await _unitOfWork.Complete()) return NoContent();
 
             return BadRequest("Failed to update article");
+        }
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteActivity(int id)
+        {
+            var activityToDelete = await _unitOfWork.ArticleRepository.GetArticleByIdAsync(id);
+
+            _unitOfWork.ArticleRepository.Delete(activityToDelete);
+
+            if (await _unitOfWork.Complete())
+                return Ok();
+
+            return BadRequest("Failed to delete article");
         }
     }
 }

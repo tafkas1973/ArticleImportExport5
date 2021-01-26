@@ -1,7 +1,8 @@
 import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { ToastrService } from 'ngx-toastr';
 
 import { Article } from '../../_models/article';
 import { ArticleService } from '../../_services/article.service';
@@ -20,7 +21,8 @@ export class ArticleDetailComponent implements OnInit {
   constructor(
     private articleService: ArticleService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadArticle();
@@ -55,5 +57,28 @@ export class ArticleDetailComponent implements OnInit {
         this.article = article
         this.galleryImages = this.getImages();
       });
+  }
+
+  onRemoveArticle() {
+    this.removeArticle();
+  }
+
+  private removeArticle() {
+    var response = confirm('Are you sure you want to delete this article?');
+    if (response) {
+      // TODO : unsubscribe !!
+      this.articleService
+        .deleteArticle(this.article.id)
+        .subscribe(
+          () => {
+            this.toastr.success('Article has been deleted');
+            const navigationExtras: NavigationExtras = { state: { forceLoad: true } }; // evt. pass id to prevent server trip
+            this.router.navigateByUrl('/article-list', navigationExtras);
+          },
+          error => {
+            this.toastr.error('Failed to delete article');
+          }
+        );
+    }
   }
 }

@@ -10,13 +10,14 @@
 
 <div class="container mt-3">
   <div class="text center float-left">
-    <h4 [hidden]="pagination?.totalItems == 0">Filter matches - {{pagination?.totalItems}} found, showing page
+    <h4 [hidden]="!pagination || pagination?.totalItems == 0">Filter matches - {{pagination?.totalItems}} found, showing
+      page
       {{pagination?.currentPage}}/{{pagination?.totalPages}}
     </h4>
-    <h4 [hidden]="pagination && pagination?.totalItems != 0">No matching articles found </h4>
+    <h4 [hidden]="pagination?.totalItems != 0">No matching articles found </h4>
   </div>
   <div>
-    <a class="nav-link float-right" [hidden]="!pagination || pagination.totalItems == 0" routerLink="/article-add"
+    <a class="nav-link o4u-link float-right" [hidden]="!pagination" (click)="onCreateArticle()"
       routerLinkActive='active'><i class="fa fa-plus o4u-link mr-2"></i></a>
   </div>
 </div>
@@ -26,7 +27,7 @@
 
 <div class="d-flex justify-content-end mt-3" *ngIf="pagination?.totalItems > 0">
   <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
-    [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
+    [(ngModel)]="pagination.currentPage" (pageChanged)="onPageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
     firstText="&laquo;" lastText="&raquo;">
   </pagination>
 </div>

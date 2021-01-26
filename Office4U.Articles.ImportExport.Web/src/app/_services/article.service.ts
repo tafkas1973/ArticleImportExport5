@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { Article } from '../_models/article';
+import { Article, ArticleForCreation } from '../_models/article';
 import { ArticleParams } from '../_models/articleParams';
 import { PaginatedResult } from '../_models/pagination';
 
@@ -18,7 +18,8 @@ export class ArticleService {
   articleParams: ArticleParams;
   articleCache = new Map();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient) {
     this.articleParams = new ArticleParams();
   }
 
@@ -35,10 +36,10 @@ export class ArticleService {
     return this.articleParams;
   }
 
-  getArticles(articleParams: ArticleParams) {
+  getArticles(articleParams: ArticleParams, forceLoad = false) {
     var key = Object.values(articleParams).join('-');
     var response = this.articleCache.get(key);
-    if (response) return of(response);
+    if (response && !forceLoad) return of(response);
 
     let params = this.GetPaginationHeaders(articleParams);
 
@@ -49,7 +50,7 @@ export class ArticleService {
       .pipe(map(response => {
         this.articleCache.set(key, response);
         return response;
-      }));      
+      }));
   }
 
   getArticle(id: number) {
@@ -61,6 +62,11 @@ export class ArticleService {
     return this.http.get<Article>(this.baseUrl + 'articles/' + id.toString());
   }
 
+  createArticle(article: ArticleForCreation): Observable<Object> {
+    console.log('serv create article', article);
+    return this.http.post(this.baseUrl + 'articles', article);
+  }
+
   updateArticle(article: Article) {
     return this.http
       .put(this.baseUrl + 'articles', article)
@@ -70,6 +76,10 @@ export class ArticleService {
           this.articles[index] = article;
         })
       );
+  }
+
+  deleteArticle(id: number): Observable<Object> {
+    return this.http.delete(this.baseUrl + 'articles/' + id);
   }
 
   private GetPaginationHeaders(articleParams: ArticleParams) {

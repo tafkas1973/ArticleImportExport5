@@ -2,18 +2,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Office4U.Articles.ImportExport.Api.Controllers.DTOs
 {
-    public class ArticleUpdateDto
+    public class ArticleForCreationDto
     {
         [Required]
-        public int Id { get; set; }
-
+        public string Code { get; set; }
         [Required]
         public string SupplierId { get; set; }
 
         [Required]
         [MaxLength(150)]
         public string SupplierReference { get; set; }
-        [Required]
+         [Required]
         public string Name1 { get; set; }
+        [Required]
+        public string Unit { get; set; }
+        [Required]
+        [Range(0.01, 99999.99)]
+        public decimal PurchasePrice { get; set; }
     }
 }

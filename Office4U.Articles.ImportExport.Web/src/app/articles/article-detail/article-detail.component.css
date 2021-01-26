@@ -17,5 +17,7 @@ img.card-img-top.img-thumbnail {
 }
 
 .o4u-link {
+    cursor: pointer;
     font-size: 25px;
+    color: var(--primary-color);
 }
