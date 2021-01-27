@@ -34,20 +34,17 @@
     </form>
 </div>
 
-<!--<div class="row mt-5" *ngIf="validationErrors.length > 0">
+<div class="row mt-5" *ngIf="validationErrors.length > 0">
     <ul class="text-danger">
         <li *ngFor="let error of validationErrors">
             {{error}}
         </li>
     </ul>
-</div>-->
-
-validationErrors={{validationErrors|async}}
+</div>
 
 <div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Cancel</button>
-    <button type="submit" class="btn btn-success" form="articleCreateForm"
-        >Submit</button>
+    <button type="submit" class="btn btn-success" form="articleCreateForm">Submit</button>
 </div>
 
 <!--[disabled]="!articleCreateForm.valid"-->

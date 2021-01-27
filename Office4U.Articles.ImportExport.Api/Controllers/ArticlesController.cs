@@ -56,7 +56,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateActivity(ArticleForCreationDto newArticleDto)
+        public async Task<IActionResult> CreateArticle(ArticleForCreationDto newArticleDto)
         {
             var newArticle = _mapper.Map<Article>(newArticleDto);
 
@@ -87,11 +87,11 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         }
         
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteActivity(int id)
+        public async Task<IActionResult> DeleteArticle(int id)
         {
-            var activityToDelete = await _unitOfWork.ArticleRepository.GetArticleByIdAsync(id);
+            var articleToDelete = await _unitOfWork.ArticleRepository.GetArticleByIdAsync(id);
 
-            _unitOfWork.ArticleRepository.Delete(activityToDelete);
+            _unitOfWork.ArticleRepository.Delete(articleToDelete);
 
             if (await _unitOfWork.Complete())
                 return Ok();

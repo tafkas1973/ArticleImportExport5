@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { of, Subject } from 'rxjs';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { fade } from '../../_animations/animations';
 
 import { Article, ArticleForCreation } from '../../_models/article';
@@ -30,7 +30,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   pagination: Pagination;
   columnTitles: Array<string> = ['Code', 'Supplier Id', 'Supplier Reference', 'Name', 'Unit', 'Purchase Price(€)'];
   rowCellPropertyNames: Array<string> = ['code', 'supplierId', 'supplierReference', 'name1', 'unit', 'purchasePrice'];
-  public validationErrors: Array<string> = [];
+  validationErrors: Array<string> = ['err1', 'err2'];
   modalRef: BsModalRef;
   forceLoad = false;
 
@@ -99,33 +99,60 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       class: 'modal-dialog-centered',
       ignoreBackdropClick: true,
       initialState: {
-        validationErrors: of(this.validationErrors),
+        animated: true,
+        validationErrors: this.validationErrors,
         isCreated: isCreated
       }
     }
     this.modalRef = this.modalService.show(ArticleCreateModalComponent, config);
 
-    // we subscribe on the createActivityEvent that is send by the modal before closing
+    this.modalRef.content.createArticleEvent
+      .pipe(takeUntil(this.notifier))
+      .subscribe((newArticle: ArticleForCreation) => {
+        console.log('createArticleEvent fired');
+
+        this.articleService
+          .createArticle(newArticle)
+          .pipe(takeUntil(this.notifier))
+          .subscribe(() => {
+            // refresh activities
+            this.onPageChanged({ page: 1 }, true);
+            this.toastr.success("Article was created");
+          }, error => {
+            console.log('errors', error);
+            this.validationErrors = [];
+            Object.assign(this.validationErrors, error);
+            //console.log('validationErrors', this.validationErrors);
+            this.modalRef.content.validationErrors = this.validationErrors;
+            //console.log('refcontent', this.modalRef.content);   
+            this.toastr.error("Failed to create article");
+          });
+      });
+
+    // we subscribe on the createArticleEvent that is send by the modal before closing
     // we do not want to nest observables, we want an observable chain 
     // use switchMap to create a new observable by taking another observable's data
 
-    this.modalRef.content.createArticleEvent
-      .pipe(
-        tap(() => console.log('createArticleEvent event fired in modal')),
-        switchMap((newArticle: ArticleForCreation) => {
-          return this.articleService.createArticle(newArticle);
-        })
-      )
-      .pipe(takeUntil(this.notifier))
-      .subscribe(result => {
-        // refresh activities
-        this.onPageChanged({ page: 1 }, true);
-        this.toastr.success("Article was created");
-      }, error => {
-        //this.validationErrors = error;
-        Object.assign(this.validationErrors, error);
-        this.toastr.error("Failed to create article");
-      });
+    // this does only fire once !
+
+    //this.modalRef.content.createArticleEvent
+    //  .pipe(
+    //    tap(() => console.log('createArticleEvent event fired in modal')),
+    //    switchMap((newArticle: ArticleForCreation) => {
+    //      return this.articleService.createArticle(newArticle);
+    //    })
+    //  )
+    //  .pipe(takeUntil(this.notifier))
+    //  .subscribe(result => {
+    //    // refresh activities
+    //    this.onPageChanged({ page: 1 }, true);
+    //    this.toastr.success("Article was created");
+    //  }, error => {
+    //    //this.validationErrors = error;
+    //    console.log('errors', error);
+    //    Object.assign(this.validationErrors, error);
+    //    this.toastr.error("Failed to create article");
+    //  });
   }
 
   ngOnDestroy() {
@@ -133,3 +160,4 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     this.notifier.complete();
   }
 }
+

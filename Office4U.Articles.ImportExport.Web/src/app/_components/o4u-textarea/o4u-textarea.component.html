@@ -8,7 +8,7 @@
     maxlength="{{maxLength}}">
 </textarea>
 <p class="pull-right text-counter text-muted">
-    {{ngControl.control?.value.supplierReference?.length || 0}}/150
+    {{ngControl.control.value.length || 0}}/150
 </p>
 <div 
     *ngIf="ngControl.control.errors?.required"  

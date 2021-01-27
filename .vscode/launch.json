@@ -31,6 +31,20 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}",
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Attach Chrome against localhost",
+            "url": "https://localhost:4200",
+            "webRoot": "${workspaceFolder}",
+            "skipFiles": [
+                "node_modules/**/*.js",
+                "runtime.js",
+                "polyfills.js",
+                "vendor.js",
+                "analytics.js"
+            ]
         }
     ]
 }
