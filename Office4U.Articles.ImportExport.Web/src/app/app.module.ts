@@ -31,31 +31,35 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
 import { ArticleCreateModalComponent } from './articles/article-create-modal/article-create-modal.component';
+import { O4uInputComponent } from './components/o4u-input/o4u-input.component';
+import { O4uTextareaComponent } from './components/o4u-textarea/o4u-textarea.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
+    HasRoleDirective,
     HomeComponent,
-    RegisterComponent,
+    NavComponent,
     TestErrorsComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    ImportComponent,
-    ExportComponent,
-    ManagementComponent,
+    AdminPanelComponent,
     ArticleListComponent,
+    ArticleCreateModalComponent,
     ArticleDetailComponent,
     ArticleEditComponent,
     ArticleListFilterComponent,
-    AdminPanelComponent,
-    HasRoleDirective,
-    UserManagementComponent,
+    ExportComponent,
+    ImportComponent,
+    ManagementComponent,
+    RegisterComponent,
     RolesModalComponent,
+    UserManagementComponent,
     O4uLabelInputComponent,
     O4uTableComponent,
     O4uTitleComponent,
-    ArticleCreateModalComponent
+    O4uInputComponent,
+    O4uTextareaComponent
   ],
   imports: [
     BrowserModule,
