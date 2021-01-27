@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,6 +28,7 @@ export class ArticleEditComponent implements OnInit, OnDestroy {
   constructor(
     private articleService: ArticleService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -49,12 +50,14 @@ export class ArticleEditComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.notifier))
       .subscribe(() => {
         this.toastr.success('Article updated succesfully');
-        this.editForm.reset(this.article);
+        //this.editForm.reset(this.article);
+        const navigationExtras: NavigationExtras = { state: { forceLoad: true } };
+        this.router.navigateByUrl('/article-list', navigationExtras);
       });
   }
 
   ngOnDestroy() {
     this.notifier.next();
     this.notifier.complete();
-  }  
+  }
 }
