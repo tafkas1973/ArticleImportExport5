@@ -113,7 +113,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
           .createArticle(newArticle)
           .pipe(takeUntil(this.notifier))
           .subscribe(() => {
-            this.onPageChanged({ page: 1 }, true);
+            this.loadArticles(true);
             this.toastr.success("Article was created");
           }, error => {
             console.log('errors', error);

@@ -32,17 +32,19 @@ export class ArticleCreateModalComponent implements OnInit {
   }
 
   createArticle() {
-    // if (this.articleCreateForm.valid) {
-    const newArticle: ArticleForCreation = {
-      code: this.articleCreateForm.value.code,
-      name1: this.articleCreateForm.value.name1,
-      supplierId: this.articleCreateForm.value.supplierId,
-      supplierReference: this.articleCreateForm.value.supplierReference,
-      unit: this.articleCreateForm.value.unit,
-      purchasePrice: +this.articleCreateForm.value.purchasePrice
-    };
-    this.createArticleEvent.emit(newArticle);
-    // this.modalRef.hide();
-    //}
+    if (this.articleCreateForm.valid || this.getServerSideValidation) {
+      const newArticle: ArticleForCreation = {
+        code: this.articleCreateForm.value.code,
+        name1: this.articleCreateForm.value.name1,
+        supplierId: this.articleCreateForm.value.supplierId,
+        supplierReference: this.articleCreateForm.value.supplierReference,
+        unit: this.articleCreateForm.value.unit,
+        purchasePrice: +this.articleCreateForm.value.purchasePrice
+      };
+      this.createArticleEvent.emit(newArticle);
+      if (this.articleCreateForm.valid){
+        this.modalRef.hide();
+      }
+    }
   }
 }
