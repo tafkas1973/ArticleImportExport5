@@ -23,16 +23,16 @@ import { ArticleDetailComponent } from './articles/article-detail/article-detail
 import { ArticleEditComponent } from './articles/article-edit/article-edit.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { ArticleListFilterComponent } from './articles/article-list-filter/article-list-filter.component';
-import { O4uLabelInputComponent } from './components/o4u-label-input/o4u-label-input.component';
-import { O4uTableComponent } from './components/o4u-table/o4u-table.component';
-import { O4uTitleComponent } from './components/o4u-title/o4u-title.component';
+import { O4uLabelInputComponent } from './_components/o4u-label-input/o4u-label-input.component';
+import { O4uTableComponent } from './_components/o4u-table/o4u-table.component';
+import { O4uTitleComponent } from './_components/o4u-title/o4u-title.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
 import { ArticleCreateModalComponent } from './articles/article-create-modal/article-create-modal.component';
-import { O4uInputComponent } from './components/o4u-input/o4u-input.component';
-import { O4uTextareaComponent } from './components/o4u-textarea/o4u-textarea.component';
+import { O4uInputComponent } from './_components/o4u-input/o4u-input.component';
+import { O4uTextareaComponent } from './_components/o4u-textarea/o4u-textarea.component';
 
 @NgModule({
   declarations: [

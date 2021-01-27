@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Observable, of } from 'rxjs';
 import { ArticleForCreation } from '../../_models/article';
 
 @Component({
@@ -10,7 +11,7 @@ import { ArticleForCreation } from '../../_models/article';
 })
 export class ArticleCreateModalComponent implements OnInit {
   @Output() createArticleEvent: EventEmitter<any> = new EventEmitter();
-  public validationErrors: Array<string> = [];
+  public validationErrors: Observable<Array<string>> = of([]);
   articleCreateForm: FormGroup;
 
   constructor(
@@ -29,7 +30,7 @@ export class ArticleCreateModalComponent implements OnInit {
   }
 
   createArticle() {
-    if (this.articleCreateForm.valid) {
+   // if (this.articleCreateForm.valid) {
       const newArticle: ArticleForCreation = {
         code: this.articleCreateForm.value.code,
         name1: this.articleCreateForm.value.name1,
@@ -39,7 +40,7 @@ export class ArticleCreateModalComponent implements OnInit {
         purchasePrice: +this.articleCreateForm.value.purchasePrice
       };
       this.createArticleEvent.emit(newArticle);
-      this.modalRef.hide();
-    }
+     // this.modalRef.hide();
+    //}
   }
 }

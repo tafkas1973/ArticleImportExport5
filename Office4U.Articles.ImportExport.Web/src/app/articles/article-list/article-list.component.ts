@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { fade } from '../../_animations/animations';
 
@@ -30,7 +30,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   pagination: Pagination;
   columnTitles: Array<string> = ['Code', 'Supplier Id', 'Supplier Reference', 'Name', 'Unit', 'Purchase Price(€)'];
   rowCellPropertyNames: Array<string> = ['code', 'supplierId', 'supplierReference', 'name1', 'unit', 'purchasePrice'];
-  validationErrors: Array<string> = [];
+  public validationErrors: Array<string> = [];
   modalRef: BsModalRef;
   forceLoad = false;
 
@@ -99,7 +99,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       class: 'modal-dialog-centered',
       ignoreBackdropClick: true,
       initialState: {
-        validationErrors: this.validationErrors,
+        validationErrors: of(this.validationErrors),
         isCreated: isCreated
       }
     }
@@ -122,6 +122,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
         this.onPageChanged({ page: 1 }, true);
         this.toastr.success("Article was created");
       }, error => {
+        //this.validationErrors = error;
         Object.assign(this.validationErrors, error);
         this.toastr.error("Failed to create article");
       });
