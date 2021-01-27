@@ -50,7 +50,7 @@ export class ArticleEditComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.notifier))
       .subscribe(() => {
         this.toastr.success('Article updated succesfully');
-        //this.editForm.reset(this.article);
+        this.editForm.reset(this.article);
         const navigationExtras: NavigationExtras = { state: { forceLoad: true } };
         this.router.navigateByUrl('/article-list', navigationExtras);
       });
