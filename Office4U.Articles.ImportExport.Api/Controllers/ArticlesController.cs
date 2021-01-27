@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Office4U.Articles.ImportExport.Api.Controllers.DTOs;
+using Office4U.Articles.ImportExport.Api.Controllers.DTOs.Article;
 using Office4U.Articles.ImportExport.Api.Data.Repositories.Interfaces;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Extensions;

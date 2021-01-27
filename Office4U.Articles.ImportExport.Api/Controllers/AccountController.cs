@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Office4U.Articles.ImportExport.Api.Controllers.DTOs;
+using Office4U.Articles.ImportExport.Api.Controllers.DTOs.AppUser;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Services.Interfaces;
 
@@ -48,9 +48,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = await _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs,
-                Gender = user.Gender
+                Token = await _tokenService.CreateToken(user)
             };
         }
 
@@ -58,7 +56,6 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var dbUser = await _userManager.Users
-                .Include(u => u.Photos)
                 .SingleOrDefaultAsync(u => u.UserName == loginDto.Username.ToLower());
 
             if (dbUser == null) return Unauthorized("Invalid username");
@@ -74,9 +71,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
             return new UserDto
             {
                 Username = dbUser.UserName,
-                Token = await _tokenService.CreateToken(dbUser),
-                KnownAs = dbUser.KnownAs,
-                Gender = dbUser.Gender
+                Token = await _tokenService.CreateToken(dbUser)
             };
         }
 

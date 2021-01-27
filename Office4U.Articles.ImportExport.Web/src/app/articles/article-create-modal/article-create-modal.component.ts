@@ -13,6 +13,7 @@ export class ArticleCreateModalComponent implements OnInit {
   @Output() createArticleEvent: EventEmitter<any> = new EventEmitter();
   articleCreateForm: FormGroup;
   data: any;
+  public getServerSideValidation = false; // for demo purposes
 
   constructor(
     public modalRef: BsModalRef,
@@ -20,7 +21,6 @@ export class ArticleCreateModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('modal errors', this.validationErrors);
     this.articleCreateForm = this.fb.group({
       code: ['', Validators.required],
       name1: ['', Validators.required],

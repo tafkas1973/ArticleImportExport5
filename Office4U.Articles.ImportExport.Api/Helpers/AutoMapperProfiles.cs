@@ -1,6 +1,7 @@
 using System.Linq;
 using AutoMapper;
-using Office4U.Articles.ImportExport.Api.Controllers.DTOs;
+using Office4U.Articles.ImportExport.Api.Controllers.DTOs.AppUser;
+using Office4U.Articles.ImportExport.Api.Controllers.DTOs.Article;
 using Office4U.Articles.ImportExport.Api.Entities;
 
 namespace Office4U.Articles.ImportExport.Api.Helpers
@@ -9,11 +10,7 @@ namespace Office4U.Articles.ImportExport.Api.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<AppUser, AppUserDto>()
-                .ForMember(
-                    dest => dest.PhotoUrl,
-                    options => options.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url));
-            CreateMap<AppUserPhoto, UserPhotoDto>();
+            CreateMap<AppUser, AppUserDto>();
 
             CreateMap<Article, ArticleDto>()
                 .ForMember(

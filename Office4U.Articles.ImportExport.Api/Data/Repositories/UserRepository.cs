@@ -19,14 +19,12 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
-                .Include(u => u.Photos)
                 .SingleOrDefaultAsync(u => u.UserName == username);
         }
 
         public async Task<PagedList<AppUser>> GetUsersAsync(UserParams userParams)
         {
             var users = _context.Users
-                .Include(u => u.Photos)
                 .AsQueryable();
 
             return await PagedList<AppUser>.CreateAsync(

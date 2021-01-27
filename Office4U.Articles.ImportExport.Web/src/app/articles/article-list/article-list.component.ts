@@ -30,7 +30,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   pagination: Pagination;
   columnTitles: Array<string> = ['Code', 'Supplier Id', 'Supplier Reference', 'Name', 'Unit', 'Purchase Price(€)'];
   rowCellPropertyNames: Array<string> = ['code', 'supplierId', 'supplierReference', 'name1', 'unit', 'purchasePrice'];
-  validationErrors: Array<string> = ['err1', 'err2'];
+  validationErrors: Array<string> = [];
   modalRef: BsModalRef;
   forceLoad = false;
 
@@ -109,22 +109,17 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     this.modalRef.content.createArticleEvent
       .pipe(takeUntil(this.notifier))
       .subscribe((newArticle: ArticleForCreation) => {
-        console.log('createArticleEvent fired');
-
         this.articleService
           .createArticle(newArticle)
           .pipe(takeUntil(this.notifier))
           .subscribe(() => {
-            // refresh activities
             this.onPageChanged({ page: 1 }, true);
             this.toastr.success("Article was created");
           }, error => {
             console.log('errors', error);
             this.validationErrors = [];
             Object.assign(this.validationErrors, error);
-            //console.log('validationErrors', this.validationErrors);
             this.modalRef.content.validationErrors = this.validationErrors;
-            //console.log('refcontent', this.modalRef.content);   
             this.toastr.error("Failed to create article");
           });
       });

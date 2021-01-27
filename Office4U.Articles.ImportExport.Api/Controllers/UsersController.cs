@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Office4U.Articles.ImportExport.Api.Controllers.DTOs;
+using Office4U.Articles.ImportExport.Api.Controllers.DTOs.AppUser;
 using Office4U.Articles.ImportExport.Api.Helpers;
 using Office4U.Articles.ImportExport.Api.Entities;
 using Office4U.Articles.ImportExport.Api.Extensions;

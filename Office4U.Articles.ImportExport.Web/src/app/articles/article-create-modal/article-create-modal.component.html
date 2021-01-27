@@ -43,8 +43,13 @@
 </div>
 
 <div class="modal-footer">
+    <div class="form-group">
+        <button *ngIf="!getServerSideValidation" (click)="getServerSideValidation=true"
+            class="btn btn-secondary">Server side check</button>
+        <button *ngIf="getServerSideValidation" (click)="getServerSideValidation=false"
+            class="btn btn-primary">Client side check</button>
+    </div>
     <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Cancel</button>
-    <button type="submit" class="btn btn-success" form="articleCreateForm">Submit</button>
+    <button [disabled]="!articleCreateForm.valid && !getServerSideValidation" type="submit" class="btn btn-success"
+        form="articleCreateForm">Submit</button>
 </div>
-
-<!--[disabled]="!articleCreateForm.valid"-->
