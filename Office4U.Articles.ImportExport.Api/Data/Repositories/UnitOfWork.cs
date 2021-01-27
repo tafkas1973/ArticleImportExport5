@@ -15,7 +15,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories
 
         public IArticleRepository ArticleRepository => new ArticleRepository(_context);
 
-        public async Task<bool> Complete()
+        public async Task<bool> Commit()
         {
             return await _context.SaveChangesAsync() > 0;
         }

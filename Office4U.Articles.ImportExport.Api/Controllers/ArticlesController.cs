@@ -62,7 +62,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
 
             _unitOfWork.ArticleRepository.Add(newArticle);
 
-            if (await _unitOfWork.Complete())
+            if (await _unitOfWork.Commit())
             {
                 var articleToReturn = _mapper.Map<ArticleForReturnDto>(newArticle);
                 return CreatedAtRoute("GetArticle", new { id = newArticle.Id }, articleToReturn);
@@ -81,7 +81,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
 
             _unitOfWork.ArticleRepository.Update(article);
 
-            if (await _unitOfWork.Complete()) return NoContent();
+            if (await _unitOfWork.Commit()) return NoContent();
 
             return BadRequest("Failed to update article");
         }
@@ -93,7 +93,7 @@ namespace Office4U.Articles.ImportExport.Api.Controllers
 
             _unitOfWork.ArticleRepository.Delete(articleToDelete);
 
-            if (await _unitOfWork.Complete())
+            if (await _unitOfWork.Commit())
                 return Ok();
 
             return BadRequest("Failed to delete article");

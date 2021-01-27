@@ -6,7 +6,7 @@ namespace Office4U.Articles.ImportExport.Api.Data.Repositories.Interfaces
     {
         IUserRepository UserRepository { get; }
         IArticleRepository ArticleRepository { get; }
-        Task<bool> Complete();
+        Task<bool> Commit();
         bool HasChanges();
     }
 }
